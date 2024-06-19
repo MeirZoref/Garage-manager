@@ -235,7 +235,7 @@ namespace Ex03.ConsoleUI
                 {
                     eVehicleType eWantedVehicleType = GetWantedVehicleType();
                     m_GarageManager.AddNewVehicleObjectToGarage(eWantedVehicleType, licenseNumber);
-                    List<string> neededProperties =  m_GarageManager.GetListOfNeededProperties(licenseNumber);
+                    List<string> neededProperties =  m_GarageManager.GetListOfNeededPropertiesAndPossibleValues(licenseNumber);
                     List<string> inputProperties = new List<string>();
                     Console.WriteLine("Please enter the vehicle's properties:");
                     for (int i = 0; i < neededProperties.Count; i++)

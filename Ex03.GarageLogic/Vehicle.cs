@@ -13,7 +13,7 @@ namespace Ex03.GarageLogic
         //private string m_LicenseNumber; //readonly?
         private float m_CurrentEnergyLevel;
         ////private eEnergyType m_EnergyType;
-        //private List<Wheel> m_WheelsList = new List<Wheel>();
+        private List<Wheel> m_WheelsList = new List<Wheel>();
         //private EnergySource m_EnergySource;
 
         //public Vehicle(string i_ModelName, string i_LicenseNumber, float i_CurrentEnergyPercentage, List<Wheel> i_WheelsList)// EnergySource i_EnergySource)
@@ -25,14 +25,66 @@ namespace Ex03.GarageLogic
         //    //m_EnergySource = i_EnergySource;
         //}
 
-        public void SetVehicleValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList, float i_CurrentEnergyLevel)
+        public virtual void SetProperty(string i_propertyName, string i_PropertyValue)
         {
             try
             {
-                ModelName = i_ModelName;
-                LicenseNumber = i_LicenseNumber;
-                WheelsList = i_WheelsList; //try catch?
-                CurrentEnergyLevel = i_CurrentEnergyLevel; //? calculate?
+                switch (i_propertyName)
+                {
+                    case "Model name":
+                    {
+                        ModelName = i_PropertyValue;
+                        break;
+                    }
+                    case "License number":
+                    {
+                        LicenseNumber = i_PropertyValue;
+                        break;
+                    }
+                    case "Wheel manufacturer name":
+                    {
+                        foreach (Wheel wheel in WheelsList)
+                        {
+                            wheel.ManufacturerName = i_PropertyValue;
+                        }
+
+                        break;
+                    }
+                    case "Current air pressure":
+                    {
+                        if (float.TryParse(i_PropertyValue, out float value))
+                        {
+                            foreach (Wheel wheel in WheelsList)
+                            {
+                                wheel.CurrentAirPressure = value;
+                            }
+                        }
+                        else
+                        {
+                            throw new FormatException("Invalid input - Current air pressure should be a float number");
+                        }
+
+                        break;
+                    }
+                    case "Max air pressure":
+                    {
+                        if (float.TryParse(i_PropertyValue, out float value))
+                        {
+                            foreach (Wheel wheel in WheelsList)
+                            {
+                                wheel.MaxAirPressure = value;
+                            }
+                        }
+                        else
+                        {
+                            throw new FormatException("Invalid input - Max air pressure should be a float number");
+                        }
+
+                        break;
+                    }
+                    default:
+                        throw new ArgumentException("Property name is not valid");
+                }
             }
             catch (Exception)
             {
@@ -108,18 +160,20 @@ namespace Ex03.GarageLogic
         //}
 
 
-        public virtual List<string> GetListOfProperties()
+        public virtual List<string> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> listOfValues = new List<string>
+            List<string> listOfProperties = new List<string>
             {
-                "Model Name",
-                "License Number",
-                "Wheels Manufacturer", //? define by myself?
-                "Current Air Pressure",
-                "Max Air Pressure" //? define by myself?
+                "Model name", "String (any set of charcters)",
+                "License number", "String (any set of charcters)",
+                "Wheel manufacturer name", "String (any set of charcters)",
+                "Current air pressure", "Float (positive number)",
+                "Max air pressure", "Float (positive number)"
             };
+            //listOfProperties.AddRange(WheelsList.GetListOfProperties());
+            
             //listOfValues.Add("Current Energy Percentage");
-            return listOfValues;
+            return listOfProperties;
         }
 
         public void InflateWheelsToMax()

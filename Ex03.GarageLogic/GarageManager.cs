@@ -63,77 +63,77 @@ namespace Ex03.GarageLogic
             m_AllGarageVehiclesData.Add(i_Vehicle.LicensePlate, vehicleData);
         }
 
-        public void AddPropertiesToVehicleAccordingToActualType(string i_LicensePlate, Dictionary<string, string> i_Properties)
-        {
-            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
-            try
-            {
-                switch (vehicle)
-                {
-                    case ElectricCar electricCar:
-                        {
-                            electricCar.SetProperties(i_Properties);
-                            break;
-                        }
-                    case ElectricMotorcycle electricMotorcycle:
-                        {
-                            electricMotorcycle.SetProperties(i_Properties);
-                            break;
-                        }
-                    case FuelCar fuelCar:
-                        {
-                            fuelCar.SetProperties(i_Properties);
-                            break;
-                        }
-                    case FuelMotorcycle fuelMotorcycle:
-                        {
-                            fuelMotorcycle.SetProperties(i_Properties);
-                            break;
-                        }
-                    case FuelTruck fuelTruck:
-                        {
-                            fuelTruck.SetProperties(i_Properties);
-                            break;
-                        }
-                    default:
-                        {
-                            throw new ArgumentException("Vehicle type is not supported");
-                        }
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //public void AddPropertiesToVehicleAccordingToActualType(string i_LicensePlate, Dictionary<string, string> i_Properties)
+        //{
+        //    Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+        //    try
+        //    {
+        //        switch (vehicle)
+        //        {
+        //            case ElectricCar electricCar:
+        //                {
+        //                    electricCar.SetProperties(i_Properties);
+        //                    break;
+        //                }
+        //            case ElectricMotorcycle electricMotorcycle:
+        //                {
+        //                    electricMotorcycle.SetProperties(i_Properties);
+        //                    break;
+        //                }
+        //            case FuelCar fuelCar:
+        //                {
+        //                    fuelCar.SetProperties(i_Properties);
+        //                    break;
+        //                }
+        //            case FuelMotorcycle fuelMotorcycle:
+        //                {
+        //                    fuelMotorcycle.SetProperties(i_Properties);
+        //                    break;
+        //                }
+        //            case FuelTruck fuelTruck:
+        //                {
+        //                    fuelTruck.SetProperties(i_Properties);
+        //                    break;
+        //                }
+        //            default:
+        //                {
+        //                    throw new ArgumentException("Vehicle type is not supported");
+        //                }
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
-        public void AddPropertiesToElectricCar(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber,
-                                               string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
-                                               float i_CurrentBatteryEnergyLevel, float i_MaxBatteryEnergyLevel,
-                                               eColor i_Color, eNumOfDoors i_NumOfDoors)
-        {
-            if (m_AllGarageVehiclesData.TryGetValue(i_LicensePlate, out GarageSingleVehicleData vehicleData))
-            {
-                ElectricCar electricCar = vehicleData.Vehicle as ElectricCar;
-                if (electricCar != null)
-                {
-                    // Now you have an ElectricCar reference, you can set its properties
-                    m_AllGarageVehiclesData[i_LicensePlate].OwnerName = i_OwnerName;
-                    m_AllGarageVehiclesData[i_LicensePlate].OwnerPhoneNumber = i_OwnerPhoneNumber;
-                    electricCar.SetElectricCarValues(i_ModelName, i_LicenseNumber, i_WheelsList,
-                                                     i_CurrentBatteryEnergyLevel, i_MaxBatteryEnergyLevel,
-                                                     i_Color, i_NumOfDoors);  
-                }
-                else
-                {
-                    throw new ArgumentException("The vehicle with the given license plate is not an Electric Car.");
-                }
-            }
-            else
-            {
-                throw new KeyNotFoundException("The vehicle with the given license plate was not found in the garage.");
-            }
-        }
+        //public void AddPropertiesToElectricCar(string i_LicensePlate, string i_OwnerName, string i_OwnerPhoneNumber,
+        //                                       string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
+        //                                       float i_CurrentBatteryEnergyLevel, float i_MaxBatteryEnergyLevel,
+        //                                       eColor i_Color, eNumOfDoors i_NumOfDoors)
+        //{
+        //    if (m_AllGarageVehiclesData.TryGetValue(i_LicensePlate, out GarageSingleVehicleData vehicleData))
+        //    {
+        //        ElectricCar electricCar = vehicleData.Vehicle as ElectricCar;
+        //        if (electricCar != null)
+        //        {
+        //            // Now you have an ElectricCar reference, you can set its properties
+        //            m_AllGarageVehiclesData[i_LicensePlate].OwnerName = i_OwnerName;
+        //            m_AllGarageVehiclesData[i_LicensePlate].OwnerPhoneNumber = i_OwnerPhoneNumber;
+        //            electricCar.SetElectricCarValues(i_ModelName, i_LicenseNumber, i_WheelsList,
+        //                                             i_CurrentBatteryEnergyLevel, i_MaxBatteryEnergyLevel,
+        //                                             i_Color, i_NumOfDoors);  
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentException("The vehicle with the given license plate is not an Electric Car.");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new KeyNotFoundException("The vehicle with the given license plate was not found in the garage.");
+        //    }
+        //}
         public void AddNewVehicleObjectToGarage(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
             try
@@ -148,52 +148,38 @@ namespace Ex03.GarageLogic
             catch (Exception)
             {
                 throw;
-            }            
+            }
+            // throw new ArgumentException("Vehicle type is not supported"); ?
+
         }
 
-        public List<string> GetListOfNeededProperties(string i_LicenseNumber)
+        public void SetProperty(string i_LicensePlate, string i_PropertyName, string i_PropertyValue)
+        {
+            try
+            {
+                m_AllGarageVehiclesData[i_LicensePlate].Vehicle.SetProperty(i_PropertyName, i_PropertyValue);
+            }
+            catch (KeyNotFoundException)
+            {
+                throw new ArgumentException("This vehicle is not in the garage.");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<string> GetListOfNeededPropertiesAndPossibleValues(string i_LicenseNumber)
         {
             try
             {
                 Vehicle vehicle = m_AllGarageVehiclesData[i_LicenseNumber].Vehicle;
                 List<string> properties = new List<string>
                 {
-                    "Owner name",
-                    "Owner phone number"
+                    "Owner name", "String (any set of charcters)",
+                    "Owner phone number", "numbers and/or hyphens"
                 };
-
-                switch (vehicle)
-                {
-                    case ElectricCar electricCar:
-                        {
-                            properties = electricCar.GetListOfProperties();
-                            break;
-                        }
-                    case ElectricMotorcycle electricMotorcycle:
-                        {
-                            properties = electricMotorcycle.GetListOfProperties();
-                            break;
-                        }
-                    case FuelCar fuelCar:
-                        {
-                            properties = fuelCar.GetListOfProperties();
-                            break;
-                        }
-                    case FuelMotorcycle fuelMotorcycle:
-                        {
-                            properties = fuelMotorcycle.GetListOfProperties();
-                            break;
-                        }
-                    case FuelTruck fuelTruck:
-                        {
-                            properties = fuelTruck.GetListOfProperties();
-                            break;
-                        }
-                    default:
-                        {
-                            throw new ArgumentException("Vehicle type is not supported");
-                        }
-                }
+                properties.AddRange(vehicle.GetListOfPropertiesAndPossibleValues());              
                 
                 return properties;
             }

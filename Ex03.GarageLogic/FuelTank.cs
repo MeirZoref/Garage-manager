@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
     internal class FuelTank
     {
         private eFuelType m_FuelType;
-        private float m_CurrentFuelAmountLiters;
-        private float m_MaxFuelAmountLiters;
+        private float m_CurrentFuelAmountInLiters;
+        private float m_MaxFuelAmountInLiters;
 
         //public FuelTank(eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters)
         //{
@@ -56,17 +56,17 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_CurrentFuelAmountLiters;
+                return m_CurrentFuelAmountInLiters;
             }
             set
             {
-                if (value >= 0 && value <= m_MaxFuelAmountLiters)
+                if (value >= 0 && value <= m_MaxFuelAmountInLiters)
                 {
-                    m_CurrentFuelAmountLiters = value;
+                    m_CurrentFuelAmountInLiters = value;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxFuelAmountLiters);
+                    throw new ValueOutOfRangeException(0, m_MaxFuelAmountInLiters);
                 }
             }
         }
@@ -75,30 +75,87 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_MaxFuelAmountLiters;
+                return m_MaxFuelAmountInLiters;
             }
             set
             {
                 if (value > 0)
                 {
-                    m_MaxFuelAmountLiters = value;
+                    m_MaxFuelAmountInLiters = value;
                 }
                 else
                 {
-                    throw new ArgumentException("Invalid max fuel amount");
+                    throw new ArgumentException("Invalid max fuel amount - must be a positive float number");
                 }
             }
         }
 
-
-
-        public List<string> GetListOfProperties()
+        public void SetFuelTankProperty(string i_PropertyName, string i_PropertyValue)
         {
-            List<string> properties = new List<string>();
-            properties.Add("Fuel type");
-            properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
-            properties.Add("Current fuel amount");
-            properties.Add("Max fuel amount");
+            try
+            {
+                switch (i_PropertyName)
+                {
+                    case "Fuel type":
+                        {
+                            if (Enum.TryParse<eFuelType>(i_PropertyValue, out eFuelType result))
+                            {
+                                FuelType = result;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Invalid fuel type");
+                            }
+                            break;
+                        }
+                    case "Current fuel amount in liters":
+                        {
+
+                            if (float.TryParse(i_PropertyValue, out float value))
+                            {
+                                CurrentFuelAmountLiters = value;
+                            }
+                            else
+                            {
+                                throw new FormatException("Invalid input - Current fuel amount in liters should be a float number");
+                            }
+
+                            break;
+                        }
+                    case "Max fuel amount in liters":
+                        {
+                            if (float.TryParse(i_PropertyValue, out float value))
+                            {
+                                MaxFuelAmountLiters = value;
+                            }
+                            else
+                            {
+                                throw new FormatException("Invalid input - Max fuel amount in liters should be a float number");
+                            }
+
+                            break;
+                        }
+                    default:
+                        throw new ArgumentException("Property name is not valid");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public List<string> GetListOfPropertiesAndPossibleValues()
+        {
+            string supportedFuelTypes = string.Join(", ", Enum.GetNames(typeof(eFuelType)));
+
+            List<string> properties = new List<string>
+            {
+                "Fuel type", $"Supported fuel types are:{supportedFuelTypes}",
+                //properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
+                "Current fuel amount in liters", "Float positive number",
+                "Max fuel amount in liters", "Float positive number"
+            };
             return properties;
         }
         private List<string> GetListOfSupportedFuelTypes() //private or public?
@@ -121,13 +178,13 @@ namespace Ex03.GarageLogic
             
             if (m_FuelType == i_FuelType)
             {
-                if (m_CurrentFuelAmountLiters + i_FuelToAddLiters <= m_MaxFuelAmountLiters)
+                if (m_CurrentFuelAmountInLiters + i_FuelToAddLiters <= m_MaxFuelAmountLiters)
                 {
-                    m_CurrentFuelAmountLiters += i_FuelToAddLiters;
+                    m_CurrentFuelAmountInLiters += i_FuelToAddLiters;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxFuelAmountLiters - m_CurrentFuelAmountLiters);
+                    throw new ValueOutOfRangeException(0, m_MaxFuelAmountLiters - m_CurrentFuelAmountInLiters);
                 }
             }
             else

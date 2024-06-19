@@ -18,18 +18,62 @@ namespace Ex03.GarageLogic
         //    m_MaxBatteryEnergyLevel = i_MaxEnergy;
         //}
 
-        public void SetBatteryValues(float i_CurrentEnergy, float i_MaxEnergy)
+        //public void SetBatteryValues(float i_CurrentEnergy, float i_MaxEnergy)
+        //{
+        //    try
+        //    {
+        //        MaxBatteryEnergyLevel = i_MaxEnergy;
+        //        CurrentBatteryEnergyLevel = i_CurrentEnergy;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        public void SetBatteryProperty(string i_PropertyName, string i_Value)
         {
             try
             {
-                MaxBatteryEnergyLevel = i_MaxEnergy;
-                CurrentBatteryEnergyLevel = i_CurrentEnergy;
+                switch (i_PropertyName)
+                {
+                    case "Current battery energy level":
+                    {
+                        if (float.TryParse(i_Value, out float result))
+                        {
+                            CurrentBatteryEnergyLevel = result;
+                        }
+                        else
+                        {
+                            throw new FormatException("Invalid input - Current battery energy level. Only float number is possible");
+                        }
+                            
+                        break;
+                    }
+                    case "Max battery energy level":
+                    {
+                        if (float.TryParse(i_Value, out float result))
+                        {
+                            MaxBatteryEnergyLevel = result;
+                        }
+                        else
+                        {
+                            throw new FormatException("Invalid input - Max battery energy level. Only float number is possible");
+                        }
+                        break;
+                    }
+                    default:
+                    {
+                        throw new ArgumentException("Invalid property name");
+                    }
+                }
             }
             catch (Exception)
             {
                 throw;
             }
-        }
+        }   
+
 
         public float MaxBatteryEnergyLevel
         {
@@ -69,12 +113,12 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public List<string> GetListOfProperties()
+        public List<string> GetListOfPropertiesAndPossibleValues()
         {
             List<string> listOfProperties = new List<string>
             {
-                "Current battery energy level",
-                "Max battery energy level"
+                "Current battery energy level", "Float (positive number)",
+                "Max battery energy level", "Float (positive number)"
             };
             return listOfProperties;
         }
@@ -91,21 +135,21 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public float CurrentEnergy
-        {
-            get
-            {
-                return m_CurrentBatteryEnergyLevel;
-            }
-        }
+        //public float CurrentEnergy
+        //{
+        //    get
+        //    {
+        //        return m_CurrentBatteryEnergyLevel;
+        //    }
+        //}
 
-        public float MaxEnergy
-        {
-            get
-            {
-                return m_MaxBatteryEnergyLevel;
-            }
-        }
+        //public float MaxEnergy
+        //{
+        //    get
+        //    {
+        //        return m_MaxBatteryEnergyLevel;
+        //    }
+        //}
 
         public override string ToString()
         {

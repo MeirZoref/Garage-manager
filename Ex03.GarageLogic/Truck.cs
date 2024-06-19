@@ -26,14 +26,60 @@ namespace Ex03.GarageLogic
         //    m_CargoVolume = i_CargoVolume;
         //}
 
-        public void SetTruckValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
-                                    float i_CurrentEnergyLevel, bool i_IsCarryingDangerousMaterials, float i_CargoVolume)
+        //public void SetTruckValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
+        //                            float i_CurrentEnergyLevel, bool i_IsCarryingDangerousMaterials, float i_CargoVolume)
+        //{
+        //    try
+        //    {
+        //        SetVehicleValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentEnergyLevel);
+        //        m_CarryingDangerousMaterials = i_IsCarryingDangerousMaterials;
+        //        CargoVolume = i_CargoVolume;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        public override void SetProperty(string i_propertyName, string i_PropertyValue)
         {
             try
             {
-                SetVehicleValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentEnergyLevel);
-                m_CarryingDangerousMaterials = i_IsCarryingDangerousMaterials;
-                CargoVolume = i_CargoVolume;
+                switch
+                (i_propertyName)
+                {
+                    case "Carrying dangerous materials":
+                        {
+                            if (bool.TryParse(i_PropertyValue, out bool value))
+                            {
+                                m_CarryingDangerousMaterials = value;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Invalid input for carrying dangerous materials. Only true or false");
+                            }
+
+                            break;
+                        }
+                    case "Cargo volume":
+                        {
+                            if (float.TryParse(i_PropertyValue, out float value))
+                            {
+                                CargoVolume = value;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("Invalid input for cargo volume. Only positive float number");
+                            }
+
+                            break;
+                        }
+                    default:
+                        {
+                            base.SetProperty(i_propertyName, i_PropertyValue);
+                            break;
+                        }
+                }
             }
             catch (Exception)
             {
@@ -41,11 +87,13 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfProperties()
+        public override List<string> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfProperties();
-            properties.Add("Carrying dangerous materials (true or false)");
+            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+            properties.Add("Carrying dangerous materials");
+            properties.Add("True or false");    
             properties.Add("Cargo volume");
+            properties.Add("Positive float number");
 
             return properties;
         }

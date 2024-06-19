@@ -17,14 +17,33 @@ namespace Ex03.GarageLogic
         //    m_FuelTankOfMotorcycle = new FuelTank(i_FuelType, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters);
         //}
 
-        public void SetFuelMotorcycleValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
-                                            float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
-                                            eLicenseType i_LicenseType, int i_EngineVolume, eFuelType i_FuelType)
+        //public void SetFuelMotorcycleValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
+        //                                    float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
+        //                                    eLicenseType i_LicenseType, int i_EngineVolume, eFuelType i_FuelType)
+        //{
+        //    try
+        //    {
+        //        SetMotorcycleValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentFuelAmountLiters, i_LicenseType, i_EngineVolume);
+        //        m_FuelTankOfMotorcycle.SetFuelTankValues(i_FuelType, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {
             try
             {
-                SetMotorcycleValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentFuelAmountLiters, i_LicenseType, i_EngineVolume);
-                m_FuelTankOfMotorcycle.SetFuelTankValues(i_FuelType, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters);
+                if (i_PropertyName == "Fuel type" || i_PropertyName == "Current fuel amount" || i_PropertyName == "Max fuel amount")
+                {
+                    m_FuelTankOfMotorcycle.SetFuelTankProperty(i_PropertyName, i_PropertyValue);
+                }
+                else
+                {
+                    base.SetProperty(i_PropertyName, i_PropertyValue);
+                }
             }
             catch (Exception)
             {
@@ -68,10 +87,10 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfProperties()
+        public override List<string> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfProperties();
-            properties.AddRange(m_FuelTankOfMotorcycle.GetListOfProperties());
+            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+            properties.AddRange(m_FuelTankOfMotorcycle.GetListOfPropertiesAndPossibleValues());
             return properties;
         }
 

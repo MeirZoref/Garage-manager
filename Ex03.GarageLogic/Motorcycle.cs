@@ -71,7 +71,7 @@ namespace Ex03.GarageLogic
                }
                else
                {
-                    throw new ArgumentException(ModelName + " Engine volume must be a positive number");
+                    throw new ArgumentException(ModelName + " Engine volume must be a positive integer number");
                }
             }
         }
@@ -84,13 +84,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfProperties()
+        public override List<string> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfProperties();
+            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
             properties.Add("License type");
-            properties.Add("Supported license types: " + string.Join(", ", GetListOfSupportedLicenseTypes()));  
+            string supportedLicenseTypes = "Supported license types:" + string.Join(", ", GetListOfSupportedLicenseTypes());
+            properties.Add(supportedLicenseTypes);
+            //properties.Add("Supported license types: " + string.Join(", ", GetListOfSupportedLicenseTypes()));  
             properties.Add("Engine volume");
-
+            properties.Add("Positive integer number");
             return properties;
         }
 

@@ -17,14 +17,33 @@ namespace Ex03.GarageLogic
         //    m_FuelTankOfCar = new FuelTank(i_FuelType, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters);
         //}
 
-        public void SetFuelCarValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
-                                       float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
-                                       eColor i_Color, eNumOfDoors i_NumOfDoors, eFuelType i_FuelType)
+        //public void SetFuelCarValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
+        //                               float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
+        //                               eColor i_Color, eNumOfDoors i_NumOfDoors, eFuelType i_FuelType)
+        //{
+        //    try
+        //    {
+        //        SetCarValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentFuelAmountLiters, i_Color, i_NumOfDoors);
+        //        FuelTankOfCar.SetFuelTankValues(i_FuelType, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters); 
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {
             try
             {
-                SetCarValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentFuelAmountLiters, i_Color, i_NumOfDoors);
-                FuelTankOfCar.SetFuelTankValues(i_FuelType, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters); 
+                if (i_PropertyName == "Fuel type" || i_PropertyName == "Current fuel amount" || i_PropertyName == "Max fuel amount")
+                {
+                    m_FuelTankOfCar.SetFuelTankProperty(i_PropertyName, i_PropertyValue);
+                }
+                else
+                {
+                    base.SetProperty(i_PropertyName, i_PropertyValue);
+                }
             }
             catch (Exception)
             {
@@ -32,10 +51,10 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfProperties()
+        public override List<string> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfProperties();
-            properties.AddRange(m_FuelTankOfCar.GetListOfProperties());
+            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+            properties.AddRange(m_FuelTankOfCar.GetListOfPropertiesAndPossibleValues());
             //properties.Add(m_FuelTankOfCar.GetListOfProperties());
             //properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
             //properties.Add("Current fuel amount");
@@ -79,13 +98,13 @@ namespace Ex03.GarageLogic
         //    m_FuelTankOfCar.Refuel(i_FuelToAddLiters, i_FuelType);
         //}
 
-        public FuelTank FuelTankOfCar
-        {
-            get
-            {
-                return m_FuelTankOfCar;
-            }
-        }
+        //public FuelTank FuelTankOfCar
+        //{
+        //    get
+        //    {
+        //        return m_FuelTankOfCar;
+        //    }
+        //}
 
         //public float CurrentFuelAmountLiters
         //{
