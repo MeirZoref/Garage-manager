@@ -134,12 +134,14 @@ namespace Ex03.GarageLogic
         //        throw new KeyNotFoundException("The vehicle with the given license plate was not found in the garage.");
         //    }
         //}
-        public void AddNewVehicleObjectToGarage(eVehicleType i_VehicleType, string i_LicenseNumber)
+        public Vehicle AddNewVehicleObjectToGarage(eVehicleType i_VehicleType, string i_LicenseNumber)
         {
             try
             {
-                Vehicle currentVehicle = VehicleFactory.CreateVehicle(i_VehicleType);
-                m_AllGarageVehiclesData.Add(i_LicenseNumber, new GarageSingleVehicleData(currentVehicle));
+                Vehicle referenceToNewVehicle = VehicleFactory.CreateVehicle(i_VehicleType);
+                m_AllGarageVehiclesData.Add(i_LicenseNumber, new GarageSingleVehicleData(referenceToNewVehicle));
+
+                return referenceToNewVehicle;
             }
             catch (ArgumentException)
             {
@@ -169,17 +171,24 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public List<string> GetListOfNeededPropertiesAndPossibleValues(string i_LicenseNumber)
+        public List<KeyValuePair<string,string>> GetListOfNeededPropertiesAndPossibleValues(string i_LicenseNumber)
         {
             try
             {
                 Vehicle vehicle = m_AllGarageVehiclesData[i_LicenseNumber].Vehicle;
-                List<string> properties = new List<string>
+                List<KeyValuePair<string, string>> properties = new List<KeyValuePair<string, string>>
                 {
-                    "Owner name", "String (any set of charcters)",
-                    "Owner phone number", "numbers and/or hyphens"
+                    new KeyValuePair<string, string>("Owner name", "String (any set of charcters)"),
+                    new KeyValuePair<string, string>("Owner phone number", "numbers and/or hyphens")
                 };
-                properties.AddRange(vehicle.GetListOfPropertiesAndPossibleValues());              
+                properties.AddRange(vehicle.GetListOfPropertiesAndPossibleValues());
+                //vehicle.GetListOfPropertiesAndPossibleValues();
+                //List<string> properties = new List<string>
+                //{
+                //    "Owner name", "String (any set of charcters)",
+                //    "Owner phone number", "numbers and/or hyphens"
+                //};
+                //properties.AddRange(vehicle.GetListOfPropertiesAndPossibleValues());              
                 
                 return properties;
             }
