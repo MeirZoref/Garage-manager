@@ -145,19 +145,33 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public List<string> GetListOfPropertiesAndPossibleValues()
+        public List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
             string supportedFuelTypes = string.Join(", ", Enum.GetNames(typeof(eFuelType)));
 
-            List<string> properties = new List<string>
+            List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
-                "Fuel type", $"Supported fuel types are:{supportedFuelTypes}",
-                //properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
-                "Current fuel amount in liters", "Float positive number",
-                "Max fuel amount in liters", "Float positive number"
+                new KeyValuePair<string, string>("Fuel type", $"Supported fuel types are:{supportedFuelTypes}"),
+                new KeyValuePair<string, string>("Current fuel amount in liters", "Float positive number"),
+                new KeyValuePair<string, string>("Max fuel amount in liters", "Float positive number")
             };
-            return properties;
+
+            return propertiesAndValues;
         }
+
+        //public List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    string supportedFuelTypes = string.Join(", ", Enum.GetNames(typeof(eFuelType)));
+
+        //    List<string> properties = new List<string>
+        //    {
+        //        "Fuel type", $"Supported fuel types are:{supportedFuelTypes}",
+        //        //properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
+        //        "Current fuel amount in liters", "Float positive number",
+        //        "Max fuel amount in liters", "Float positive number"
+        //    };
+        //    return properties;
+        //}
         private List<string> GetListOfSupportedFuelTypes() //private or public?
         {
             List<string> supportedFuelTypes = new List<string>();

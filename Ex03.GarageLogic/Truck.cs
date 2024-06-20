@@ -87,16 +87,25 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfPropertiesAndPossibleValues()
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
-            properties.Add("Carrying dangerous materials");
-            properties.Add("True or false");    
-            properties.Add("Cargo volume");
-            properties.Add("Positive float number");
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
+            propertiesAndValues.Add(new KeyValuePair<string, string>("Carrying dangerous materials", "True or false"));
+            propertiesAndValues.Add(new KeyValuePair<string, string>("Cargo volume", "Positive float number"));
 
-            return properties;
+            return propertiesAndValues;
         }
+
+        //public override List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+        //    properties.Add("Carrying dangerous materials");
+        //    properties.Add("True or false");    
+        //    properties.Add("Cargo volume");
+        //    properties.Add("Positive float number");
+
+        //    return properties;
+        //}
 
 
         public bool CarryingDangerousMaterials

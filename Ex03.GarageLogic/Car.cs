@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,20 +79,55 @@ namespace Ex03.GarageLogic
             {
                 throw;
             }
-        }   
+        }
 
-        public override List<string> GetListOfPropertiesAndPossibleValues()
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
             string supportedColors = "Supported colors are:" + string.Join(", ", Enum.GetNames(typeof(eColor)));
             string supportedNumOfDoors = "Supported number of doors are:" + string.Join(", ", Enum.GetNames(typeof(eNumOfDoors)));
+            List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>> { };
 
-            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
-            properties.Add("Color");
-            properties.Add(supportedColors);
-            properties.Add("Number of doors");
-            properties.Add(supportedNumOfDoors);
-            return properties;
+            propertiesAndValues.AddRange(base.GetListOfPropertiesAndPossibleValues());
+            propertiesAndValues.Add(new KeyValuePair<string, string>("Color", supportedColors));
+            propertiesAndValues.Add(new KeyValuePair<string, string>("Number of doors", supportedNumOfDoors));
+
+            return propertiesAndValues;
         }
+
+        //public override OrderedDictionary GetListOfPropertiesAndPossibleValues()
+        //{
+        //    OrderedDictionary propertiesAndValues = new OrderedDictionary
+
+
+
+        //    {
+        //        { "Color", "Supported colors are: " + string.Join(", ", Enum.GetNames(typeof(eColor))) },
+        //        { "Number of doors", "Supported number of doors are: " + string.Join(", ", Enum.GetNames(typeof(eNumOfDoors))) }
+        //    }
+        //        base.GetListOfPropertiesAndPossibleValues();
+        //    {
+        //        { "Model name", "String (any set of characters)" },
+        //        { "License number", "String (any set of characters)" },
+        //        { "Wheel manufacturer name", "String (any set of characters)" },
+        //        { "Current air pressure", "Float (positive number)" },
+        //        { "Max air pressure", "Float (positive number)" }
+        //    };
+
+        //    return propertiesAndValues;
+        //}
+
+        //public override List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    string supportedColors = "Supported colors are:" + string.Join(", ", Enum.GetNames(typeof(eColor)));
+        //    string supportedNumOfDoors = "Supported number of doors are:" + string.Join(", ", Enum.GetNames(typeof(eNumOfDoors)));
+
+        //    List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+        //    properties.Add("Color");
+        //    properties.Add(supportedColors);
+        //    properties.Add("Number of doors");
+        //    properties.Add(supportedNumOfDoors);
+        //    return properties;
+        //}
 
         //private object GetListOfSupportedNumOfDoors()
         //{

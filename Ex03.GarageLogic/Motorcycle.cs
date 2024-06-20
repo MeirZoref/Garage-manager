@@ -21,20 +21,20 @@ namespace Ex03.GarageLogic
         //    r_EngineVolume = i_EngineVolume;
         //}
 
-        public void SetMotorcycleValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
-                       float i_CurrentEnergyLevel, eLicenseType i_LicenseType, int i_EngineVolume)
-        {
-            try
-            {
-                SetVehicleValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentEnergyLevel);
-                LicenseType = i_LicenseType;
-                EngineVolume = i_EngineVolume;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        //public void SetMotorcycleValues(string i_ModelName, string i_LicenseNumber, List<Wheel> i_WheelsList,
+        //               float i_CurrentEnergyLevel, eLicenseType i_LicenseType, int i_EngineVolume)
+        //{
+        //    try
+        //    {
+        //        SetVehicleValues(i_ModelName, i_LicenseNumber, i_WheelsList, i_CurrentEnergyLevel);
+        //        LicenseType = i_LicenseType;
+        //        EngineVolume = i_EngineVolume;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         public eLicenseType LicenseType
         {
@@ -84,17 +84,27 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfPropertiesAndPossibleValues()
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
-            properties.Add("License type");
-            string supportedLicenseTypes = "Supported license types:" + string.Join(", ", GetListOfSupportedLicenseTypes());
-            properties.Add(supportedLicenseTypes);
-            //properties.Add("Supported license types: " + string.Join(", ", GetListOfSupportedLicenseTypes()));  
-            properties.Add("Engine volume");
-            properties.Add("Positive integer number");
-            return properties;
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
+            string supportedLicenseTypes = "Supported license types:" + string.Join(", ", Enum.GetNames(typeof(eLicenseType)));
+            propertiesAndValues.Add(new KeyValuePair<string, string>("License type", supportedLicenseTypes));
+            propertiesAndValues.Add(new KeyValuePair<string, string>("Engine volume", "Positive integer number"));
+
+            return propertiesAndValues;
         }
+
+        //public override List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+        //    properties.Add("License type");
+        //    string supportedLicenseTypes = "Supported license types:" + string.Join(", ", GetListOfSupportedLicenseTypes());
+        //    properties.Add(supportedLicenseTypes);
+        //    //properties.Add("Supported license types: " + string.Join(", ", GetListOfSupportedLicenseTypes()));  
+        //    properties.Add("Engine volume");
+        //    properties.Add("Positive integer number");
+        //    return properties;
+        //}
 
 
         public List<string> GetListOfSupportedLicenseTypes()

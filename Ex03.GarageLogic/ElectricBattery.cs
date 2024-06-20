@@ -113,15 +113,27 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public List<string> GetListOfPropertiesAndPossibleValues()
+        public List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> listOfProperties = new List<string>
+            List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
-                "Current battery energy level", "Float (positive number)",
-                "Max battery energy level", "Float (positive number)"
+                new KeyValuePair<string, string>("Current battery energy level", "Float (positive number)"),
+                new KeyValuePair<string, string>("Max battery energy level", "Float (positive number)")
             };
-            return listOfProperties;
+            
+            return propertiesAndValues;
         }
+
+
+        //public List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> listOfProperties = new List<string>
+        //    {
+        //        "Current battery energy level", "Float (positive number)",
+        //        "Max battery energy level", "Float (positive number)"
+        //    };
+        //    return listOfProperties;
+        //}
 
         public void ChargeBattery(float i_EnergyToAdd)
         {

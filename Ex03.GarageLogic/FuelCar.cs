@@ -51,16 +51,24 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfPropertiesAndPossibleValues()
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
-            properties.AddRange(m_FuelTankOfCar.GetListOfPropertiesAndPossibleValues());
-            //properties.Add(m_FuelTankOfCar.GetListOfProperties());
-            //properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
-            //properties.Add("Current fuel amount");
-            //properties.Add("Max fuel amount");
-            return properties;
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
+            propertiesAndValues.AddRange(m_FuelTankOfCar.GetListOfPropertiesAndPossibleValues());
+
+            return propertiesAndValues;
         }
+
+        //public override List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+        //    properties.AddRange(m_FuelTankOfCar.GetListOfPropertiesAndPossibleValues());
+        //    //properties.Add(m_FuelTankOfCar.GetListOfProperties());
+        //    //properties.Add($"Supported fuel types are:{GetListOfSupportedFuelTypes()}");
+        //    //properties.Add("Current fuel amount");
+        //    //properties.Add("Max fuel amount");
+        //    return properties;
+        //}
 
         public override void FillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
         {

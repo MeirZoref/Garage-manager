@@ -87,12 +87,20 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfPropertiesAndPossibleValues()
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
-            properties.AddRange(m_FuelTankOfMotorcycle.GetListOfPropertiesAndPossibleValues());
-            return properties;
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
+            propertiesAndValues.AddRange(m_FuelTankOfMotorcycle.GetListOfPropertiesAndPossibleValues());
+
+            return propertiesAndValues;
         }
+
+        //public override List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+        //    properties.AddRange(m_FuelTankOfMotorcycle.GetListOfPropertiesAndPossibleValues());
+        //    return properties;
+        //}
 
         public override string ToString() //TODO: take out energy precentage that came from vehicle?
         {

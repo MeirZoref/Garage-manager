@@ -52,12 +52,20 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override List<string> GetListOfPropertiesAndPossibleValues()
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> properties = base.GetListOfPropertiesAndPossibleValues();
-            properties.AddRange(m_FuelTankOfTruck.GetListOfPropertiesAndPossibleValues());
-            return properties;
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
+            propertiesAndValues.AddRange(m_FuelTankOfTruck.GetListOfPropertiesAndPossibleValues());
+
+            return propertiesAndValues;
         }
+
+        //public override List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> properties = base.GetListOfPropertiesAndPossibleValues();
+        //    properties.AddRange(m_FuelTankOfTruck.GetListOfPropertiesAndPossibleValues());
+        //    return properties;
+        //}
 
         public override void FillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
         {

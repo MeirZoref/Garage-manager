@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -159,22 +160,50 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
-
-        public virtual List<string> GetListOfPropertiesAndPossibleValues()
+        public virtual List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            List<string> listOfProperties = new List<string>
+            List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
-                "Model name", "String (any set of charcters)",
-                "License number", "String (any set of charcters)",
-                "Wheel manufacturer name", "String (any set of charcters)",
-                "Current air pressure", "Float (positive number)",
-                "Max air pressure", "Float (positive number)"
+                new KeyValuePair<string, string>("Model name", "String (any set of characters)"),
+                new KeyValuePair<string, string>("License number", "String (any set of characters)"),
+                new KeyValuePair<string, string>("Wheel manufacturer name", "String (any set of characters)"),
+                new KeyValuePair<string, string>("Current air pressure", "Float (positive number)"),
+                new KeyValuePair<string, string>("Max air pressure", "Float (positive number)")
             };
-            //listOfProperties.AddRange(WheelsList.GetListOfProperties());
-            
-            //listOfValues.Add("Current Energy Percentage");
-            return listOfProperties;
+
+            return propertiesAndValues;
         }
+
+
+        //public virtual OrderedDictionary GetListOfPropertiesAndPossibleValues()
+        //{
+        //    OrderedDictionary propertiesAndValues = new OrderedDictionary
+        //    {
+        //        { "Model name", "String (any set of characters)" },
+        //        { "License number", "String (any set of characters)" },
+        //        { "Wheel manufacturer name", "String (any set of characters)" },
+        //        { "Current air pressure", "Float (positive number)" },
+        //        { "Max air pressure", "Float (positive number)" }
+        //    };
+
+        //    return propertiesAndValues;
+        //}
+
+        //public virtual List<string> GetListOfPropertiesAndPossibleValues()
+        //{
+        //    List<string> listOfProperties = new List<string>
+        //    {
+        //        "Model name", "String (any set of charcters)",
+        //        "License number", "String (any set of charcters)",
+        //        "Wheel manufacturer name", "String (any set of charcters)",
+        //        "Current air pressure", "Float (positive number)",
+        //        "Max air pressure", "Float (positive number)"
+        //    };
+        //    //listOfProperties.AddRange(WheelsList.GetListOfProperties());
+
+        //    //listOfValues.Add("Current Energy Percentage");
+        //    return listOfProperties;
+        //}
 
         public void InflateWheelsToMax()
         {
@@ -190,8 +219,8 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Model Name: {r_ModelName}");
-            sb.AppendLine($"License Number: {r_LicenseNumber}");
+            sb.AppendLine($"Model Name: {ModelName}");
+            sb.AppendLine($"License Number: {LicenseNumber}");
             //sb.AppendLine($"Current Energy Percentage: {m_CurrentEnergyPercentage}%");
             sb.AppendLine("Wheels:");
             foreach (Wheel wheel in m_WheelsList)

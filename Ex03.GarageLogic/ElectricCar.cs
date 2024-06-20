@@ -50,7 +50,15 @@ namespace Ex03.GarageLogic
             }
         }
 
-       
+        public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
+        {
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
+            propertiesAndValues.AddRange(m_ElectricBatteryOfCar.GetListOfPropertiesAndPossibleValues());
+
+            return propertiesAndValues;
+        }
+
+
         public override List<string> GetListOfPropertiesAndPossibleValues()
         {
             List<string> properties = base.GetListOfPropertiesAndPossibleValues();
