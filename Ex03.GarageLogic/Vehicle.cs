@@ -15,6 +15,8 @@ namespace Ex03.GarageLogic
         private float m_CurrentEnergyLevel;
         ////private eEnergyType m_EnergyType;
         private List<Wheel> m_WheelsList = new List<Wheel>();
+        bool? m_IsElectric = null;
+        eFuelType? m_FuelType = null;
         //private EnergySource m_EnergySource;
 
         //public Vehicle(string i_ModelName, string i_LicenseNumber, float i_CurrentEnergyPercentage, List<Wheel> i_WheelsList)// EnergySource i_EnergySource)
@@ -25,6 +27,62 @@ namespace Ex03.GarageLogic
         //    m_WheelsList = i_WheelsList;
         //    //m_EnergySource = i_EnergySource;
         //}
+
+        public bool? IsElectric
+        {
+            get
+            {
+                if (!m_IsElectric.HasValue)
+                {
+                    throw new ArgumentException("Energy type of the vehicle is not defined");
+                }
+                else
+                {
+                    return m_IsElectric;
+                }
+            }
+
+            set
+            {
+                m_IsElectric = value;
+            }
+        }
+        public eFuelType? VehicleFuelType
+        {
+            get
+            {
+                if (!m_IsElectric.HasValue)
+                {
+                    throw new ArgumentException("Energy type of the vehicle is not defined");
+                }
+                else if (IsElectric == true)
+                {
+                    throw new ArgumentException("This vehicle is electric, it does not have a fuel type");
+                }
+                else
+                {
+                    return m_FuelType;
+                }
+
+            }
+            set
+            {
+                if (IsElectric == null)
+                {
+                    throw new ArgumentException("Electricity type is not defined");
+                }
+                else if (IsElectric == true)
+                {
+                    throw new ArgumentException("This vehicle is electric, it does not have a fuel type");
+                }
+                else
+                {
+                    m_FuelType = value;
+                }
+
+            }
+
+        }
 
         public virtual void SetProperty(string i_propertyName, string i_PropertyValue)
         {
@@ -37,11 +95,11 @@ namespace Ex03.GarageLogic
                         ModelName = i_PropertyValue;
                         break;
                     }
-                    case "License number":
-                    {
-                        LicenseNumber = i_PropertyValue;
-                        break;
-                    }
+                    //case "License number":
+                    //{
+                    //    LicenseNumber = i_PropertyValue;
+                    //    break;
+                    //}
                     case "Wheel manufacturer name":
                     {
                         foreach (Wheel wheel in WheelsList)
@@ -143,36 +201,37 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void SetWheelsList(List<Wheel> i_WheelsList)
-        {
-            WheelsList = i_WheelsList;
-        }
-
-        public List<Wheel> WheelsList { get; set;} //add try catch?
+        //public void SetWheelsList(List<Wheel> i_WheelsList)
         //{
-        //    get
-        //    {
-        //        return m_WheelsList;
-        //    }
-        //    set
-        //    {
-        //        m_WheelsList = value;
-        //    }
+        //    WheelsList = i_WheelsList;
         //}
+
+        public List<Wheel> WheelsList //{ get; set;} //add try catch?
+        {
+            get
+            {
+                return m_WheelsList;
+            }
+            //set
+            //{
+            //    m_WheelsList = value;
+            //}
+        }
 
         public virtual List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
             List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("Model name", "String (any set of characters)"),
-                new KeyValuePair<string, string>("License number", "String (any set of characters)"),
+               //new KeyValuePair<string, string>("License number", "String (any set of characters)"),
                 new KeyValuePair<string, string>("Wheel manufacturer name", "String (any set of characters)"),
+                new KeyValuePair<string, string>("Max air pressure", "Float (positive number)"),
                 new KeyValuePair<string, string>("Current air pressure", "Float (positive number)"),
-                new KeyValuePair<string, string>("Max air pressure", "Float (positive number)")
             };
 
             return propertiesAndValues;
         }
+
 
 
         //public virtual OrderedDictionary GetListOfPropertiesAndPossibleValues()
@@ -205,15 +264,23 @@ namespace Ex03.GarageLogic
         //    return listOfProperties;
         //}
 
-        public void InflateWheelsToMax()
+        public bool InflateWheelsToMax()
         {
+            bool allWhellsAreAlreadyInflatedToMax = true;
+
             foreach (Wheel wheel in WheelsList)
             {
-                wheel.InflateWheel(wheel.MaxAirPressure - wheel.CurrentAirPressure);
+                if (wheel.CurrentAirPressure < wheel.MaxAirPressure)
+                {
+                    wheel.InflateWheel(wheel.MaxAirPressure - wheel.CurrentAirPressure);
+                    allWhellsAreAlreadyInflatedToMax = false;
+                }
             }
+
+            return allWhellsAreAlreadyInflatedToMax;
         }
 
-        public abstract void FillEnergy(float i_EnergyToAdd, eFuelType? i_FuelType);
+        public abstract bool TryFillEnergy(float i_EnergyToAdd, eFuelType? i_FuelType);
         
 
         public override string ToString()

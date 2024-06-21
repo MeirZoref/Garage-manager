@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     internal class FuelMotorcycle : Motorcycle
     {
-        private FuelTank m_FuelTankOfMotorcycle;
+        private FuelTank m_FuelTankOfMotorcycle = new FuelTank();
 
         //public FuelMotorcycle(string i_ModelName, string i_LicenseNumber, eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
         //               List<Wheel> i_WheelsList, eLicenseType i_LicenseType, int i_EngineVolume)
@@ -36,9 +36,22 @@ namespace Ex03.GarageLogic
         {
             try
             {
-                if (i_PropertyName == "Fuel type" || i_PropertyName == "Current fuel amount" || i_PropertyName == "Max fuel amount")
+                if (i_PropertyName == "Fuel type" || i_PropertyName == "Max fuel amount in liters" || i_PropertyName == "Current fuel amount in liters")
                 {
                     m_FuelTankOfMotorcycle.SetFuelTankProperty(i_PropertyName, i_PropertyValue);
+                    IsElectric = false;
+
+                    if (i_PropertyName == "Fuel type")
+                    // Will get here only if i_PropertyName == "Fuel type" and the Fuel type provided is valid.
+                    // if fuel type is not valid - SetFuelTankProperty that gets "Fuel type" will throw an exception
+                    {
+                        VehicleFuelType = m_FuelTankOfMotorcycle.FuelType;
+                    }
+
+                    if (i_PropertyName == "Current fuel amount in liters")
+                    {
+                        CurrentEnergyLevel = m_FuelTankOfMotorcycle.CurrentFuelAmountLiters / m_FuelTankOfMotorcycle.MaxFuelAmountLiters;
+                    }
                 }
                 else
                 {
@@ -51,21 +64,40 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public override void FillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
+        public override bool TryFillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
         {
+            bool isFuelAdded = false;
             try
             {
-                m_FuelTankOfMotorcycle.Refuel(i_FuelToAddLiters, i_FuelType);
+                if (m_FuelTankOfMotorcycle.TryRefuel(i_FuelToAddLiters, i_FuelType))
+                {
+                    isFuelAdded = true;
+                    CurrentEnergyLevel = m_FuelTankOfMotorcycle.CurrentFuelAmountLiters / m_FuelTankOfMotorcycle.MaxFuelAmountLiters;
+                }
+
+                return isFuelAdded;
             }
             catch (Exception)
             {
                 throw;
             }
-            //catch (ValueOutOfRangeException)
-            //{
-            //    throw new ValueOutOfRangeException(0, m_FuelTankOfMotorcycle.MaxFuelAmountLiters - m_FuelTankOfMotorcycle.CurrentFuelAmountLiters);
-            //}
         }
+
+        //public override void FillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
+        //{
+        //    try
+        //    {
+        //        m_FuelTankOfMotorcycle.Refuel(i_FuelToAddLiters, i_FuelType);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    //catch (ValueOutOfRangeException)
+        //    //{
+        //    //    throw new ValueOutOfRangeException(0, m_FuelTankOfMotorcycle.MaxFuelAmountLiters - m_FuelTankOfMotorcycle.CurrentFuelAmountLiters);
+        //    //}
+        //}
 
         //private void Refuel(float i_FuelToAddLiters, eFuelType i_FuelType)
         //{

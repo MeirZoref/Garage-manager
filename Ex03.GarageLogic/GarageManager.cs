@@ -26,42 +26,50 @@ namespace Ex03.GarageLogic
             return m_AllGarageVehiclesData.ContainsKey(i_LicensePlate);
         }
 
-        public eVehicleStatus GetVehicleStatus(string i_LicensePlate)
-        {
-            return m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus;
-        }
+        //public eVehicleStatus GetVehicleStatus(string i_LicensePlate)
+        //{
+        //    return m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus;
+        //}
     
-        public void ChangeVehicleStatus(string i_LicensePlate, eVehicleStatus i_NewStatus)
+        public bool TryChangeVehicleStatus(string i_LicensePlate, eVehicleStatus i_NewStatus)
         {
-            m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus = i_NewStatus;
+            eVehicleStatus vehicleStatus = m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus;
+            bool isStatusChanged = false;
+            if (vehicleStatus != i_NewStatus)
+            {
+                m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus = i_NewStatus;
+                isStatusChanged = true;
+            }
+            
+            return isStatusChanged;
         }
        
-        public eVehicleType GetVehicleType(string i_LicensePlate)
-        {
-            return m_AllGarageVehiclesData[i_LicensePlate].VehicleType;
-        }
+        //public eVehicleType GetVehicleType(string i_LicensePlate)
+        //{
+        //    return m_AllGarageVehiclesData[i_LicensePlate].VehicleType;
+        //}
         
-        public string GetListOfVehicleTypes()
-        {
-            StringBuilder vehicleTypes = new StringBuilder();
-            foreach (eVehicleType vehicleType in Enum.GetValues(typeof(eVehicleType)))
-            {
-                vehicleTypes.AppendLine(vehicleType.ToString());
-            }
+        //public string GetListOfVehicleTypes()
+        //{
+        //    StringBuilder vehicleTypes = new StringBuilder();
+        //    foreach (eVehicleType vehicleType in Enum.GetValues(typeof(eVehicleType)))
+        //    {
+        //        vehicleTypes.AppendLine(vehicleType.ToString());
+        //    }
 
-            return vehicleTypes.ToString();
-        }   
+        //    return vehicleTypes.ToString();
+        //}   
 
-        public void addVehicleToGarageByLicensePlate(string i_LicensePlate, Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
-        {
-            GarageSingleVehicleData vehicleData = new GarageVehicleData(i_Vehicle, i_OwnerName, i_OwnerPhoneNumber, eVehicleStatus.InRepair);
-            m_AllGarageVehiclesData.Add(i_LicensePlate, vehicleData);
-        }
-        public void AddVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
-        {
-            GarageSingleVehicleData vehicleData = new GarageVehicleData(i_Vehicle, i_OwnerName, i_OwnerPhoneNumber, eVehicleStatus.InRepair);
-            m_AllGarageVehiclesData.Add(i_Vehicle.LicensePlate, vehicleData);
-        }
+        //public void addVehicleToGarageByLicensePlate(string i_LicensePlate, Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
+        //{
+        //    GarageSingleVehicleData vehicleData = new GarageVehicleData(i_Vehicle, i_OwnerName, i_OwnerPhoneNumber, eVehicleStatus.InRepair);
+        //    m_AllGarageVehiclesData.Add(i_LicensePlate, vehicleData);
+        //}
+        //public void AddVehicleToGarage(Vehicle i_Vehicle, string i_OwnerName, string i_OwnerPhoneNumber)
+        //{
+        //    GarageSingleVehicleData vehicleData = new GarageVehicleData(i_Vehicle, i_OwnerName, i_OwnerPhoneNumber, eVehicleStatus.InRepair);
+        //    m_AllGarageVehiclesData.Add(i_Vehicle.LicensePlate, vehicleData);
+        //}
 
         //public void AddPropertiesToVehicleAccordingToActualType(string i_LicensePlate, Dictionary<string, string> i_Properties)
         //{
@@ -139,6 +147,7 @@ namespace Ex03.GarageLogic
             try
             {
                 Vehicle referenceToNewVehicle = VehicleFactory.CreateVehicle(i_VehicleType);
+                referenceToNewVehicle.LicenseNumber = i_LicenseNumber;
                 m_AllGarageVehiclesData.Add(i_LicenseNumber, new GarageSingleVehicleData(referenceToNewVehicle));
 
                 return referenceToNewVehicle;
@@ -159,7 +168,25 @@ namespace Ex03.GarageLogic
         {
             try
             {
-                m_AllGarageVehiclesData[i_LicensePlate].Vehicle.SetProperty(i_PropertyName, i_PropertyValue);
+                switch (i_PropertyName)
+                {
+                    case "Owner name":
+                        {
+                            m_AllGarageVehiclesData[i_LicensePlate].OwnerName = i_PropertyValue;
+                            break;
+                        }
+                    case "Owner phone number":
+                        {
+                            m_AllGarageVehiclesData[i_LicensePlate].OwnerPhoneNumber = i_PropertyValue;
+                            break;
+                        }
+                    default:
+                        {
+                            m_AllGarageVehiclesData[i_LicensePlate].Vehicle.SetProperty(i_PropertyName, i_PropertyValue);
+                            break;
+                        }
+                }
+                //m_AllGarageVehiclesData[i_LicensePlate].Vehicle.SetProperty(i_PropertyName, i_PropertyValue);
             }
             catch (KeyNotFoundException)
             {
@@ -202,45 +229,39 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public void InflateVehicleWheelsToMax(string i_LicensePlate)
+        public bool InflateVehicleWheelsToMax(string i_LicensePlate)
         {
+            bool allWhellsAreAlreadyInflatedToMax = false;
+
+            if (!m_AllGarageVehiclesData.ContainsKey(i_LicensePlate))
+            {
+                throw new ArgumentException("This vehicle is not in the garage.");
+            }
+
             //foreach (Wheel wheel in m_GarageVehiclesData[i_LicensePlate].Vehicle.Wheels)
             //{
             //    wheel.InflateWheel(wheel.MaxAirPressure - wheel.CurrentAirPressure);
             //}
-            m_AllGarageVehiclesData[i_LicensePlate].Vehicle.InflateWheelsToMax();
+            allWhellsAreAlreadyInflatedToMax = m_AllGarageVehiclesData[i_LicensePlate].Vehicle.InflateWheelsToMax();
+
+            return allWhellsAreAlreadyInflatedToMax;
         }
 
-        public void RefuelVehicle(string i_LicensePlate, eFuelType i_FuelType, float i_FuelAmountInLiters)
+        public bool RefuelVehicle(string i_LicensePlate, eFuelType i_FuelType, float i_FuelAmountInLiters)
         {
             Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
-            
+
             try
             {
                 //IsFuelTypeMatch can throw an exception of it's own -- if the vehicle is not a fuel vehicle    
                 if (!IsFuelTypeMatch(i_LicensePlate, i_FuelType))
-                { 
+                {
                     throw new ArgumentException("The fuel type does not match the vehicle's fuel type.");
                 }
-               
-                switch (vehicle)
-                {
-                    case FuelCar fuelCar:
-                    {
-                        fuelCar.FillEnergy(i_FuelAmountInLiters, i_FuelType);
-                        break;
-                    }
-                    case FuelTruck fuelTruck:
-                    {
-                        fuelTruck.FillEnergy(i_FuelAmountInLiters, i_FuelType);
-                        break;
-                    }
-                    case FuelMotorcycle fuelMotorcycle:
-                    {
-                        fuelMotorcycle.FillEnergy(i_FuelAmountInLiters, i_FuelType);
-                        break;
-                    }
-                }
+
+                bool isEnergyAdded = vehicle.TryFillEnergy(i_FuelAmountInLiters, i_FuelType);
+
+                return isEnergyAdded;
             }
             catch (Exception)
             {
@@ -263,48 +284,71 @@ namespace Ex03.GarageLogic
 
         private eFuelType GetFuelTypeOfVehicle(string i_LicensePlate)
         {
-            eFuelType? eFuelType = null;
-            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
-            
-            if (!IsFuelVehicle(i_LicensePlate))
+            try
             {
-                throw new ArgumentException("This vehicle is not a fuel vehicle.");
+                eFuelType? eFuelType = null;
+                Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+
+                if (!IsVehicleFuelBased(i_LicensePlate))
+                {
+                    throw new ArgumentException("This vehicle is not a fuel vehicle.");
+                }
+                else
+                {
+                    eFuelType = vehicle.VehicleFuelType;
+
+                    if (eFuelType.HasValue)
+                    {
+                        return eFuelType.Value;
+                    }
+                    else
+                    {
+                        throw new ArgumentException("This vehicle doesn't have fuel type set.");
+                    }
+
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
 
-            //The method will get here only if the vehicle is a fuel vehicle,
-            //and it must have a fuel type in this case (the ctors of the fuel vehicles set the fuel type)
-            switch (vehicle)
-            {
-                case FuelCar fuelCar:
-                    {
-                        eFuelType = fuelCar.FuelTankOfCar.FuelType;
-                        break;
-                    }
-                case FuelTruck fuelTruck:
-                    {
-                        eFuelType = fuelTruck.FuelTankOfTruck.FuelType;
-                        break;
-                    }
-                case FuelMotorcycle fuelMotorcycle:
-                    {
-                        eFuelType = fuelMotorcycle.FuelTankOfMotorcycle.FuelType;
-                        break;
-                    }
-            }
+            ////The method will get here only if the vehicle is a fuel vehicle,
+            ////and it must have a fuel type in this case (the ctors of the fuel vehicles set the fuel type)
+            //switch (vehicle)
+            //{
+            //    case FuelCar fuelCar:
+            //        {
+            //            eFuelType = fuelCar.FuelTankOfCar.FuelType;
+            //            break;
+            //        }
+            //    case FuelTruck fuelTruck:
+            //        {
+            //            eFuelType = fuelTruck.FuelTankOfTruck.FuelType;
+            //            break;
+            //        }
+            //    case FuelMotorcycle fuelMotorcycle:
+            //        {
+            //            eFuelType = fuelMotorcycle.FuelTankOfMotorcycle.FuelType;
+            //            break;
+            //        }
+            //}
             
-            return eFuelType.Value;
+            //return eFuelType.Value;
         }
 
-        private bool IsFuelVehicle(string i_LicensePlate)
+        public bool IsVehicleFuelBased(string i_LicensePlate)
         {
-            eVehicleType vehicleType = m_AllGarageVehiclesData[i_LicensePlate].VehicleType;
-            return vehicleType == eVehicleType.FuelCar || vehicleType == eVehicleType.FuelMotorcycle || vehicleType == eVehicleType.FuelTruck;
+            return !IsElectricVehicle(i_LicensePlate);
+            //return eVehicleType vehicleType = m_AllGarageVehiclesData[i_LicensePlate].VehicleType;
+            //return vehicleType == eVehicleType.FuelCar || vehicleType == eVehicleType.FuelMotorcycle || vehicleType == eVehicleType.FuelTruck;
         }
 
         public void ChargeVehicle(string i_LicensePlate, float i_ElectricityAmountInMinutes)
         {
-            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle; 
-            
+            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+
             if (!IsElectricVehicle(i_LicensePlate))
             {
                 throw new ArgumentException("This vehicle is not an electric vehicle.");
@@ -316,12 +360,12 @@ namespace Ex03.GarageLogic
                 {
                     case ElectricCar electricCar:
                         {
-                            electricCar.FillEnergy(i_ElectricityAmountInMinutes, null);
+                            electricCar.TryFillEnergy(i_ElectricityAmountInMinutes, null);
                             break;
                         }
                     case ElectricMotorcycle electricMotorcycle:
                         {
-                            electricMotorcycle.FillEnergy(i_ElectricityAmountInMinutes, null);
+                            electricMotorcycle.TryFillEnergy(i_ElectricityAmountInMinutes, null);
                             break;
                         }
                 }
@@ -334,11 +378,28 @@ namespace Ex03.GarageLogic
             //ElectricBattery electricBattery = ((ElectricBattery)m_GarageVehiclesData[i_LicensePlate].Vehicle.EnergySource);
             //electricBattery.ChargeBattery(i_EnergyAmount);
         }
-        
+
         private bool IsElectricVehicle(string i_LicensePlate)
         {
-            eVehicleType vehicleType = m_AllGarageVehiclesData[i_LicensePlate].VehicleType;
-            return vehicleType == eVehicleType.ElectricCar || vehicleType == eVehicleType.ElectricMotorcycle;
+            try
+            {
+                Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+                if (vehicle.IsElectric.HasValue)
+                {
+                    return vehicle.IsElectric.Value;
+                }
+                else
+                {
+                    throw new ArgumentException("This vehicle doesn't have energy type set.");
+
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            //eVehicleType vehicleType = m_AllGarageVehiclesData[i_LicensePlate].VehicleType;
+            //return vehicleType == eVehicleType.ElectricCar || vehicleType == eVehicleType.ElectricMotorcycle;
         }
 
         //public string GetVehicleData(string i_LicensePlate)
@@ -420,53 +481,53 @@ namespace Ex03.GarageLogic
             return supportedVehicleTypes;
         }
 
-        public List<eColor> eColorsOptions
-        {
-            get
-            {
-                return Enum.GetValues(typeof(eColor)).Cast<eColor>().ToList();
-            }
-        }
+        //public List<eColor> eColorsOptions
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(eColor)).Cast<eColor>().ToList();
+        //    }
+        //}
 
-        public List<eFuelType> eFuelTypesOptions
-        {
-            get
-            {
-                return Enum.GetValues(typeof(eFuelType)).Cast<eFuelType>().ToList();
-            }
-        }
+        //public List<eFuelType> eFuelTypesOptions
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(eFuelType)).Cast<eFuelType>().ToList();
+        //    }
+        //}
 
-        public List<eLicenseType> eLicenseTypesOptions
-        {
-            get
-            {
-                return Enum.GetValues(typeof(eLicenseType)).Cast<eLicenseType>().ToList();
-            }
-        }
+        //public List<eLicenseType> eLicenseTypesOptions
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(eLicenseType)).Cast<eLicenseType>().ToList();
+        //    }
+        //}
 
-        public List<eNumOfDoors> eNumOfDoorsOptions
-        {
-            get
-            {
-                return Enum.GetValues(typeof(eNumOfDoors)).Cast<eNumOfDoors>().ToList();
-            }
-        }
+        //public List<eNumOfDoors> eNumOfDoorsOptions
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(eNumOfDoors)).Cast<eNumOfDoors>().ToList();
+        //    }
+        //}
 
-        public List<eVehicleStatus> eVehicleStatusesOptions
-        {
-            get
-            {
-                return Enum.GetValues(typeof(eVehicleStatus)).Cast<eVehicleStatus>().ToList();
-            }
-        }
+        //public List<eVehicleStatus> eVehicleStatusesOptions
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(eVehicleStatus)).Cast<eVehicleStatus>().ToList();
+        //    }
+        //}
 
-        public List<eVehicleType> eVehicleTypesOptions
-        {
-            get
-            {
-                return Enum.GetValues(typeof(eVehicleType)).Cast<eVehicleType>().ToList();
-            }
-        }
+        //public List<eVehicleType> eVehicleTypesOptions
+        //{
+        //    get
+        //    {
+        //        return Enum.GetValues(typeof(eVehicleType)).Cast<eVehicleType>().ToList();
+        //    }
+        //}
 
 
 

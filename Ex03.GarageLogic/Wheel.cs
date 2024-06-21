@@ -12,12 +12,12 @@ namespace Ex03.GarageLogic
         private float m_CurrentAirPressure;
         private float m_MaxAirPressure; //readonly?
 
-        public Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
-        {
-            r_ManufacturerName = i_ManufacturerName;
-            m_CurrentAirPressure = i_CurrentAirPressure;
-            m_MaxAirPressure = i_MaxAirPressure;
-        }
+        //public Wheel(string i_ManufacturerName, float i_CurrentAirPressure, float i_MaxAirPressure)
+        //{
+        //    r_ManufacturerName = i_ManufacturerName;
+        //    m_CurrentAirPressure = i_CurrentAirPressure;
+        //    m_MaxAirPressure = i_MaxAirPressure;
+        //}
 
         public void InflateWheel(float i_AirPressureToAdd)
         {
@@ -100,7 +100,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return $"Manufacturer Name: {r_ManufacturerName}, Current Air Pressure: {m_CurrentAirPressure}, Max Air Pressure: {m_MaxAirPressure}";
+            return $"Manufacturer Name: {m_ManufacturerName}, Current Air Pressure: {m_CurrentAirPressure}, Max Air Pressure: {m_MaxAirPressure}";
         }
     }
 }

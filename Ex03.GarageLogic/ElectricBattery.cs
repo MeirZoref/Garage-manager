@@ -117,8 +117,8 @@ namespace Ex03.GarageLogic
         {
             List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("Current battery energy level", "Float (positive number)"),
-                new KeyValuePair<string, string>("Max battery energy level", "Float (positive number)")
+                new KeyValuePair<string, string>("Max battery energy level", "Float (positive number)"),
+                new KeyValuePair<string, string>("Current battery energy level", "Float (positive number)")
             };
             
             return propertiesAndValues;
@@ -135,16 +135,22 @@ namespace Ex03.GarageLogic
         //    return listOfProperties;
         //}
 
-        public void ChargeBattery(float i_EnergyToAdd)
+        public bool TryChargeBattery(float i_EnergyToAdd)
         {
+            bool isEnergyAdded = false;
+
             if (m_CurrentBatteryEnergyLevel + i_EnergyToAdd <= m_MaxBatteryEnergyLevel)
             {
                 m_CurrentBatteryEnergyLevel += i_EnergyToAdd;
+                isEnergyAdded = true;
+
             }
             else
             {
                 throw new ValueOutOfRangeException(0, m_MaxBatteryEnergyLevel - m_CurrentBatteryEnergyLevel);
             }
+
+            return isEnergyAdded;
         }
 
         //public float CurrentEnergy

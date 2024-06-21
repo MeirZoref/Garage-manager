@@ -9,7 +9,7 @@
         RefuelVehicle,
         RechargeVehicle,
         DisplayVehicleDetails,
-        Exit,
-        Invalid
+        Exit
+        //Invalid
     }
 }

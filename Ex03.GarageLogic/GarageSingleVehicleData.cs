@@ -147,8 +147,8 @@ namespace Ex03.GarageLogic
         {
             StringBuilder generalVehicleData = new StringBuilder();
             string specificVehicleData = string.Empty;
-            generalVehicleData.AppendFormat("Owner name: {0}{1}", m_OwnerName, Environment.NewLine);
-            generalVehicleData.AppendFormat("Owner phone number: {0}{1}", m_OwnerPhoneNumber, Environment.NewLine);
+            generalVehicleData.AppendFormat("Owner name: {0}{1}", OwnerName, Environment.NewLine);
+            generalVehicleData.AppendFormat("Owner phone number: {0}{1}", OwnerPhoneNumber, Environment.NewLine);
             generalVehicleData.AppendFormat("Vehicle status: {0}{1}", m_VehicleStatus, Environment.NewLine);
             
             switch (m_Vehicle)

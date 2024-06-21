@@ -36,6 +36,14 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
+        public Car()
+        {
+            for (int i = 0; i < k_NumOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+        }
+
         public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {
             try
@@ -83,16 +91,28 @@ namespace Ex03.GarageLogic
 
         public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            string supportedColors = "Supported colors are:" + string.Join(", ", Enum.GetNames(typeof(eColor)));
-            string supportedNumOfDoors = "Supported number of doors are:" + string.Join(", ", Enum.GetNames(typeof(eNumOfDoors)));
-            List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>> { };
+            List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
 
-            propertiesAndValues.AddRange(base.GetListOfPropertiesAndPossibleValues());
-            propertiesAndValues.Add(new KeyValuePair<string, string>("Color", supportedColors));
+            string supportedColorsString = $"Supported colors are: {Environment.NewLine}{BuildListOfSupportedColors()}";
+            propertiesAndValues.Add(new KeyValuePair<string, string>("Color", supportedColorsString));
+            string supportedNumOfDoors = "Supported number of doors are:" + string.Join(", ", Enum.GetNames(typeof(eNumOfDoors)));
             propertiesAndValues.Add(new KeyValuePair<string, string>("Number of doors", supportedNumOfDoors));
 
             return propertiesAndValues;
         }
+
+        private string BuildListOfSupportedColors()
+        {
+            string[] possibleColors = Enum.GetNames(typeof(eColor));
+            StringBuilder supportedColorsBuilder = new StringBuilder();
+            for (int i = 0; i < possibleColors.Length; i++)
+            {
+                supportedColorsBuilder.AppendLine($"{i + 1}. {possibleColors[i]}");
+            }
+            
+            return supportedColorsBuilder.ToString();
+        }
+
 
         //public override OrderedDictionary GetListOfPropertiesAndPossibleValues()
         //{
@@ -149,6 +169,35 @@ namespace Ex03.GarageLogic
         //    }
 
         //    return supportedColors;
+        //}
+
+        //public override bool FillEnergy(float i_EnergyToAdd, eFuelType? i_FuelType)
+        //{
+        //    bool isEnergyAdded = false;
+        //    try
+        //    {
+        //        if (i_FuelType.HasValue)
+        //        {
+        //            FuelTankOfCar.Refuel(i_EnergyToAdd, i_FuelType.Value);
+        //        }
+        //        else
+        //        {
+
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentException("Fuel type is missing");
+        //        }
+
+        //        isEnergyAdded = true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+
+        //    return isEnergyAdded;
+
         //}
 
         public eColor Color

@@ -36,6 +36,59 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
+        public Motorcycle()
+        {
+            for (int i = 0; i < k_NumberOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+        }
+
+        public override void SetProperty(string i_PropertyName, string i_PropertyValue)
+        {
+            try
+            {
+                switch (i_PropertyName)
+                {
+                    case "License type":
+                        {
+                            if (Enum.TryParse<eLicenseType>(i_PropertyValue, out eLicenseType result))
+                            {
+                                LicenseType = result;
+                            }
+                            else
+                            {
+                                throw new ArgumentException("License type is not valid.");
+                            }
+                            
+                            break;
+                        }
+                    case "Engine volume":
+                    {
+                        if (int.TryParse(i_PropertyValue, out int value) && value > 0)
+                        {
+                            EngineVolume = value;
+                        }
+                        else
+                        {
+                            throw new ArgumentException(ModelName + " Engine volume must be a positive integer number");
+                        }
+
+                        break;
+                    }
+                    default:
+                        {
+                            base.SetProperty(i_PropertyName, i_PropertyValue);
+                            break;
+                        }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         public eLicenseType LicenseType
         {
             get
@@ -87,11 +140,25 @@ namespace Ex03.GarageLogic
         public override List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
             List<KeyValuePair<string, string>> propertiesAndValues = base.GetListOfPropertiesAndPossibleValues();
-            string supportedLicenseTypes = "Supported license types:" + string.Join(", ", Enum.GetNames(typeof(eLicenseType)));
-            propertiesAndValues.Add(new KeyValuePair<string, string>("License type", supportedLicenseTypes));
+                        
+            string supportedLicenseTypesList = BuildListOfSupportedLicenseTypes();
+            string supportedLicenseTypesString = $"Supported license types: {Environment.NewLine}{supportedLicenseTypesList}";
+            propertiesAndValues.Add(new KeyValuePair<string, string>("License type", supportedLicenseTypesString));
             propertiesAndValues.Add(new KeyValuePair<string, string>("Engine volume", "Positive integer number"));
 
             return propertiesAndValues;
+        }
+
+        private string BuildListOfSupportedLicenseTypes()
+        {
+            string[] licenseTypes = Enum.GetNames(typeof(eLicenseType));
+            StringBuilder supportedLicenseTypesBuilder = new StringBuilder();
+            for (int i = 0; i < licenseTypes.Length; i++)
+            {
+                supportedLicenseTypesBuilder.AppendLine($"{i + 1}. {licenseTypes[i]}");
+            }
+            
+            return supportedLicenseTypesBuilder.ToString();
         }
 
         //public override List<string> GetListOfPropertiesAndPossibleValues()

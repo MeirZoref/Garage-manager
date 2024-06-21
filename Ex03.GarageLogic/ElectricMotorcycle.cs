@@ -10,7 +10,7 @@ namespace Ex03.GarageLogic
     {
         //private const float k_MaxBatteryTime = 1.8f;
         //private const eFuelType k_FuelType = eFuelType.Electric;
-        private ElectricBattery m_ElectricBatteryOfMotorcycle;
+        private ElectricBattery m_ElectricBatteryOfMotorcycle = new ElectricBattery();
 
         //public ElectricMotorcycle(string i_ModelName, string i_LicenseNumber, float i_CurrentBatteryEnergyLevel, float i_MaxBatteryEnergyLevel,
         //    List<Wheel> i_WheelsList, eLicenseType i_LicenseType, int i_EngineVolume)
@@ -41,6 +41,7 @@ namespace Ex03.GarageLogic
                 if (i_PropertyName == "Max battery energy level" || i_PropertyName == "Current battery energy level")
                 {
                     m_ElectricBatteryOfMotorcycle.SetBatteryProperty(i_PropertyName, i_PropertyValue);
+                    IsElectric = true;
                 }
                 else
                 {
@@ -89,22 +90,45 @@ namespace Ex03.GarageLogic
 
         }
 
-        public override void FillEnergy(float i_ElectricityAmountInMinutes, eFuelType? i_FuelType)
+        public override bool TryFillEnergy(float i_ElectricityAmountInMinutes, eFuelType? i_FuelType)
         {
             try
             {
                 if (i_FuelType != null)
                 {
-                    throw new ArgumentException("Electric motorcycle does not run on fuel");
+                    throw new ArgumentException("Electric car does not run on fuel");
                 }
 
-                m_ElectricBatteryOfMotorcycle.ChargeBattery(i_ElectricityAmountInMinutes);
+                bool isEnergyAdded = m_ElectricBatteryOfMotorcycle.TryChargeBattery(i_ElectricityAmountInMinutes);
+                if (isEnergyAdded)
+                {
+                    CurrentEnergyLevel = m_ElectricBatteryOfMotorcycle.CurrentBatteryEnergyLevel / m_ElectricBatteryOfMotorcycle.MaxBatteryEnergyLevel;
+                }
+
+                return isEnergyAdded;
             }
             catch (Exception)
             {
                 throw;
             }
         }
+
+        //public override void TryFillEnergy(float i_ElectricityAmountInMinutes, eFuelType? i_FuelType)
+        //{
+        //    try
+        //    {
+        //        if (i_FuelType != null)
+        //        {
+        //            throw new ArgumentException("Electric motorcycle does not run on fuel");
+        //        }
+
+        //        m_ElectricBatteryOfMotorcycle.TryChargeBattery(i_ElectricityAmountInMinutes);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         public override string ToString() 
          //TODO: take out energy precentage that came from vehicle, because of duplication with ElectricBattery

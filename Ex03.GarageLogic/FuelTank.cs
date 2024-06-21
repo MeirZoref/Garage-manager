@@ -19,19 +19,19 @@ namespace Ex03.GarageLogic
         //    m_MaxFuelAmountLiters = i_MaxFuelAmountLiters;
         //}
 
-        public void SetFuelTankValues(eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters)
-        {
-            try
-            {
-                FuelType = i_FuelType;  // if value is not defined - throws exception
-                MaxFuelAmountLiters = i_MaxFuelAmountLiters; // if value is 0 - throws exception
-                CurrentFuelAmountLiters = i_CurrentFuelAmountLiters; //if value is bigger than max - throws exception
-            }
-            catch (Exception)
-            {
-                throw;
-            }   
-        }
+        //public void SetFuelTankValues(eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters)
+        //{
+        //    try
+        //    {
+        //        FuelType = i_FuelType;  // if value is not defined - throws exception
+        //        MaxFuelAmountLiters = i_MaxFuelAmountLiters; // if value is 0 - throws exception
+        //        CurrentFuelAmountLiters = i_CurrentFuelAmountLiters; //if value is bigger than max - throws exception
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }   
+        //}
 
         public eFuelType FuelType
         {
@@ -108,7 +108,7 @@ namespace Ex03.GarageLogic
                             }
                             break;
                         }
-                    case "Current fuel amount in liters":
+                    case "Current fuel amount in liters": 
                         {
 
                             if (float.TryParse(i_PropertyValue, out float value))
@@ -147,17 +147,31 @@ namespace Ex03.GarageLogic
 
         public List<KeyValuePair<string, string>> GetListOfPropertiesAndPossibleValues()
         {
-            string supportedFuelTypes = string.Join(", ", Enum.GetNames(typeof(eFuelType)));
+            string supportedFuelTypesString = BuildListOfSupportedFuelTypes();
 
             List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("Fuel type", $"Supported fuel types are:{supportedFuelTypes}"),
-                new KeyValuePair<string, string>("Current fuel amount in liters", "Float positive number"),
-                new KeyValuePair<string, string>("Max fuel amount in liters", "Float positive number")
+                new KeyValuePair<string, string>("Fuel type", $"Supported fuel types are:{Environment.NewLine}{supportedFuelTypesString}"),
+                new KeyValuePair<string, string>("Max fuel amount in liters", "Float positive number"),
+                new KeyValuePair<string, string>("Current fuel amount in liters", "Float positive number")
             };
 
             return propertiesAndValues;
         }
+
+        private string BuildListOfSupportedFuelTypes()
+        {
+            string[] fuelTypes = Enum.GetNames(typeof(eFuelType));
+            StringBuilder supportedFuelTypesBuilder = new StringBuilder();
+            for (int i = 0; i < fuelTypes.Length; i++)
+            {
+                supportedFuelTypesBuilder.AppendLine($"{i + 1}. {fuelTypes[i]}");
+            }
+            
+            return supportedFuelTypesBuilder.ToString();
+        }
+
+
 
         //public List<string> GetListOfPropertiesAndPossibleValues()
         //{
@@ -172,34 +186,39 @@ namespace Ex03.GarageLogic
         //    };
         //    return properties;
         //}
-        private List<string> GetListOfSupportedFuelTypes() //private or public?
-        {
-            List<string> supportedFuelTypes = new List<string>();
-            foreach (eFuelType fuelType in Enum.GetValues(typeof(eFuelType)))
-            {
-                supportedFuelTypes.Add(fuelType.ToString());
-            }
+        //private List<string> GetListOfSupportedFuelTypes() //private or public?
+        //{
+        //    List<string> supportedFuelTypes = new List<string>();
+        //    foreach (eFuelType fuelType in Enum.GetValues(typeof(eFuelType)))
+        //    {
+        //        supportedFuelTypes.Add(fuelType.ToString());
+        //    }
 
-            return supportedFuelTypes;
-        }   
+        //    return supportedFuelTypes;
+        //}   
 
-        public void Refuel(float i_FuelToAddLiters, eFuelType? i_FuelType)
+        public bool TryRefuel(float i_FuelToAddLiters, eFuelType? i_FuelType)
         {
             if (!i_FuelType.HasValue)
             {
                 throw new ArgumentNullException("There is no fuel type");
             }
-            
+
             if (m_FuelType == i_FuelType)
             {
-                if (m_CurrentFuelAmountInLiters + i_FuelToAddLiters <= m_MaxFuelAmountLiters)
+                bool isFuelAdded = false;
+
+                if (m_CurrentFuelAmountInLiters + i_FuelToAddLiters <= m_MaxFuelAmountInLiters)
                 {
                     m_CurrentFuelAmountInLiters += i_FuelToAddLiters;
+                    isFuelAdded = true;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxFuelAmountLiters - m_CurrentFuelAmountInLiters);
+                    throw new ValueOutOfRangeException(0, m_MaxFuelAmountInLiters - m_CurrentFuelAmountInLiters);
                 }
+
+                return isFuelAdded;
             }
             else
             {
@@ -207,6 +226,39 @@ namespace Ex03.GarageLogic
             }
         }
 
-        
+        //public bool TryRefuel(float i_FuelToAddLiters, eFuelType? i_FuelType)
+        //{
+        //    bool isFuelAdded = false;
+        //    try
+        //    {
+        //        Refuel(i_FuelToAddLiters, i_FuelType);
+        //        isFuelAdded = true;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //    if (!i_FuelType.HasValue)
+        //    {
+        //        throw new ArgumentNullException("There is no fuel type");
+        //    }
+
+        //    if (m_FuelType == i_FuelType)
+        //    {
+        //        if (m_CurrentFuelAmountInLiters + i_FuelToAddLiters <= m_MaxFuelAmountInLiters)
+        //        {
+        //            m_CurrentFuelAmountInLiters += i_FuelToAddLiters;
+        //        }
+        //        else
+        //        {
+        //            throw new ValueOutOfRangeException(0, m_MaxFuelAmountInLiters - m_CurrentFuelAmountInLiters);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentException("Wrong fuel type");
+        //    }
+        //}
+
     }
 }

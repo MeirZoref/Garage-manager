@@ -41,6 +41,14 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
+        public Truck()
+        {
+            for (int i = 0; i < k_NumOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+        }
+
         public override void SetProperty(string i_propertyName, string i_PropertyValue)
         {
             try

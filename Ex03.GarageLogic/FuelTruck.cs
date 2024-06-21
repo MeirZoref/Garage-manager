@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     internal class FuelTruck : Truck
     {
-        private FuelTank m_FuelTankOfTruck;
+        private FuelTank m_FuelTankOfTruck = new FuelTank();
 
         //public FuelTruck(string i_ModelName, string i_LicenseNumber, eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
         //                           List<Wheel> i_WheelsList, bool i_IsCarryingDangerousMaterials, float i_CargoVolume)
@@ -32,14 +32,26 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
-
         public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {
             try
             {
-                if (i_PropertyName == "Fuel type" || i_PropertyName == "Current fuel amount" || i_PropertyName == "Max fuel amount")
+                if (i_PropertyName == "Fuel type" || i_PropertyName == "Max fuel amount in liters" || i_PropertyName == "Current fuel amount in liters")
                 {
                     m_FuelTankOfTruck.SetFuelTankProperty(i_PropertyName, i_PropertyValue);
+                    IsElectric = false;
+
+                    if (i_PropertyName == "Fuel type")
+                    // Will get here only if i_PropertyName == "Fuel type" and the Fuel type provided is valid.
+                    // if fuel type is not valid - SetFuelTankProperty that gets "Fuel type" will throw an exception
+                    {
+                        VehicleFuelType = m_FuelTankOfTruck.FuelType;
+                    }
+
+                    if (i_PropertyName == "Current fuel amount in liters")
+                    {
+                        CurrentEnergyLevel = m_FuelTankOfTruck.CurrentFuelAmountLiters / m_FuelTankOfTruck.MaxFuelAmountLiters;
+                    }
                 }
                 else
                 {
@@ -67,21 +79,40 @@ namespace Ex03.GarageLogic
         //    return properties;
         //}
 
-        public override void FillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
+        public override bool TryFillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
         {
+            bool isFuelAdded = false;
             try
             {
-                m_FuelTankOfTruck.Refuel(i_FuelToAddLiters, m_FuelTankOfTruck.FuelType);
+                if (m_FuelTankOfTruck.TryRefuel(i_FuelToAddLiters, i_FuelType))
+                {
+                    isFuelAdded = true;
+                    CurrentEnergyLevel = m_FuelTankOfTruck.CurrentFuelAmountLiters / m_FuelTankOfTruck.MaxFuelAmountLiters;
+                }
+
+                return isFuelAdded;
             }
             catch (Exception)
             {
                 throw;
             }
         }
-        public void Refuel(float i_FuelToAddLiters, eFuelType i_FuelType)
-        {
-            m_FuelTankOfTruck.Refuel(i_FuelToAddLiters, i_FuelType);
-        }
+
+        //public override void FillEnergy(float i_FuelToAddLiters, eFuelType? i_FuelType)
+        //{
+        //    try
+        //    {
+        //        m_FuelTankOfTruck.Refuel(i_FuelToAddLiters, m_FuelTankOfTruck.FuelType);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        throw;
+        //    }
+        //}
+        //public void Refuel(float i_FuelToAddLiters, eFuelType i_FuelType)
+        //{
+        //    m_FuelTankOfTruck.Refuel(i_FuelToAddLiters, i_FuelType);
+        //}
 
         public FuelTank FuelTankOfTruck
         {
