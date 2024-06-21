@@ -50,18 +50,18 @@ namespace Ex03.GarageLogic
                             
                         break;
                     }
-                    case "Max battery energy level":
-                    {
-                        if (float.TryParse(i_Value, out float result))
-                        {
-                            MaxBatteryEnergyLevel = result;
-                        }
-                        else
-                        {
-                            throw new FormatException("Invalid input - Max battery energy level. Only float number is possible");
-                        }
-                        break;
-                    }
+                    //case "Max battery energy level":
+                    //{
+                    //    if (float.TryParse(i_Value, out float result))
+                    //    {
+                    //        MaxBatteryEnergyLevel = result;
+                    //    }
+                    //    else
+                    //    {
+                    //        throw new FormatException("Invalid input - Max battery energy level. Only float number is possible");
+                    //    }
+                    //    break;
+                    //}
                     default:
                     {
                         throw new ArgumentException("Invalid property name");
@@ -117,7 +117,7 @@ namespace Ex03.GarageLogic
         {
             List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
-                new KeyValuePair<string, string>("Max battery energy level", "Float (positive number)"),
+                //new KeyValuePair<string, string>("Max battery energy level", "Float (positive number)"),
                 new KeyValuePair<string, string>("Current battery energy level", "Float (positive number)")
             };
             

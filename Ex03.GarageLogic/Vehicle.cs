@@ -125,22 +125,22 @@ namespace Ex03.GarageLogic
 
                         break;
                     }
-                    case "Max air pressure":
-                    {
-                        if (float.TryParse(i_PropertyValue, out float value))
-                        {
-                            foreach (Wheel wheel in WheelsList)
-                            {
-                                wheel.MaxAirPressure = value;
-                            }
-                        }
-                        else
-                        {
-                            throw new FormatException("Invalid input - Max air pressure should be a float number");
-                        }
+                    //case "Max air pressure":
+                    //{
+                    //    if (float.TryParse(i_PropertyValue, out float value))
+                    //    {
+                    //        foreach (Wheel wheel in WheelsList)
+                    //        {
+                    //            wheel.MaxAirPressure = value;
+                    //        }
+                    //    }
+                    //    else
+                    //    {
+                    //        throw new FormatException("Invalid input - Max air pressure should be a float number");
+                    //    }
 
-                        break;
-                    }
+                    //    break;
+                    //}
                     default:
                         throw new ArgumentException("Property name is not valid");
                 }

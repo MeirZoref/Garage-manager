@@ -122,19 +122,19 @@ namespace Ex03.GarageLogic
 
                             break;
                         }
-                    case "Max fuel amount in liters":
-                        {
-                            if (float.TryParse(i_PropertyValue, out float value))
-                            {
-                                MaxFuelAmountLiters = value;
-                            }
-                            else
-                            {
-                                throw new FormatException("Invalid input - Max fuel amount in liters should be a float number");
-                            }
+                    //case "Max fuel amount in liters":
+                    //    {
+                    //        if (float.TryParse(i_PropertyValue, out float value))
+                    //        {
+                    //            MaxFuelAmountLiters = value;
+                    //        }
+                    //        else
+                    //        {
+                    //            throw new FormatException("Invalid input - Max fuel amount in liters should be a float number");
+                    //        }
 
-                            break;
-                        }
+                    //        break;
+                    //    }
                     default:
                         throw new ArgumentException("Property name is not valid");
                 }
@@ -152,7 +152,7 @@ namespace Ex03.GarageLogic
             List<KeyValuePair<string, string>> propertiesAndValues = new List<KeyValuePair<string, string>>
             {
                 new KeyValuePair<string, string>("Fuel type", $"Supported fuel types are:{Environment.NewLine}{supportedFuelTypesString}"),
-                new KeyValuePair<string, string>("Max fuel amount in liters", "Float positive number"),
+                //new KeyValuePair<string, string>("Max fuel amount in liters", "Float positive number"),
                 new KeyValuePair<string, string>("Current fuel amount in liters", "Float positive number")
             };
 

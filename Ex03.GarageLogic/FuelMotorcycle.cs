@@ -9,6 +9,26 @@ namespace Ex03.GarageLogic
     internal class FuelMotorcycle : Motorcycle
     {
         private FuelTank m_FuelTankOfMotorcycle = new FuelTank();
+        private const int k_NumberOfWheels = 2;
+        private const float k_FuelMotorcycleMaxAirPressure = 33;
+        private const eFuelType k_FuelMotorcycleFuelType = eFuelType.Octan98;
+        private const float k_FuelMotorcycleMaxFuelAmountInLiters = 5.5f;
+
+        public FuelMotorcycle()
+        {
+            m_FuelTankOfMotorcycle.FuelType = k_FuelMotorcycleFuelType;
+            m_FuelTankOfMotorcycle.MaxFuelAmountLiters = k_FuelMotorcycleMaxFuelAmountInLiters;
+
+            for (int i = 0; i < k_NumberOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+
+            foreach (Wheel wheel in WheelsList)
+            {
+                wheel.MaxAirPressure = k_FuelMotorcycleMaxAirPressure;
+            }
+        }
 
         //public FuelMotorcycle(string i_ModelName, string i_LicenseNumber, eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
         //               List<Wheel> i_WheelsList, eLicenseType i_LicenseType, int i_EngineVolume)

@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Truck : Vehicle
     {
-        private const int k_NumOfWheels = 12;
+        //private const int k_NumOfWheels = 12;
         private bool m_CarryingDangerousMaterials;
         private float m_CargoVolume;
 
@@ -41,13 +41,13 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
-        public Truck()
-        {
-            for (int i = 0; i < k_NumOfWheels; i++)
-            {
-                WheelsList.Add(new Wheel());
-            }
-        }
+        //public Truck()
+        //{
+        //    for (int i = 0; i < k_NumOfWheels; i++)
+        //    {
+        //        WheelsList.Add(new Wheel());
+        //    }
+        //}
 
         public override void SetProperty(string i_propertyName, string i_PropertyValue)
         {
@@ -142,13 +142,13 @@ namespace Ex03.GarageLogic
                 }
             }
         }
-        public int NumOfWheels
-        {
-            get
-            {
-                return k_NumOfWheels;
-            }
-        }
+        //public int NumOfWheels
+        //{
+        //    get
+        //    {
+        //        return k_NumOfWheels;
+        //    }
+        //}
 
         public override string ToString()
         {

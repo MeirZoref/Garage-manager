@@ -9,6 +9,26 @@ namespace Ex03.GarageLogic
     internal class FuelTruck : Truck
     {
         private FuelTank m_FuelTankOfTruck = new FuelTank();
+        private const int k_NumberOfWheels = 12;
+        private const float k_FuelTruckMaxAirPressure = 28;
+        private const eFuelType k_FuelTruckFuelType = eFuelType.Soler;
+        private const float k_FuelTruckMaxFuelAmountInLiters = 120f;
+
+        public FuelTruck()
+        {
+            m_FuelTankOfTruck.FuelType = k_FuelTruckFuelType;
+            m_FuelTankOfTruck.MaxFuelAmountLiters = k_FuelTruckMaxFuelAmountInLiters;
+
+            for (int i = 0; i < k_NumberOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+
+            foreach (Wheel wheel in WheelsList)
+            {
+                wheel.MaxAirPressure = k_FuelTruckMaxAirPressure;
+            }
+        }
 
         //public FuelTruck(string i_ModelName, string i_LicenseNumber, eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
         //                           List<Wheel> i_WheelsList, bool i_IsCarryingDangerousMaterials, float i_CargoVolume)

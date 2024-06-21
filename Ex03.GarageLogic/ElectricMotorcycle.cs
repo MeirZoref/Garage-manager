@@ -11,6 +11,24 @@ namespace Ex03.GarageLogic
         //private const float k_MaxBatteryTime = 1.8f;
         //private const eFuelType k_FuelType = eFuelType.Electric;
         private ElectricBattery m_ElectricBatteryOfMotorcycle = new ElectricBattery();
+        private const int k_NumOfWheels = 2;
+        private const float k_ElectricMotorcycleMaxAirPressure = 33;
+        private const float k_ElectricMotorcycleMaxBatteryHours = 2.5f;
+
+        public ElectricMotorcycle()
+        {
+            m_ElectricBatteryOfMotorcycle.MaxBatteryEnergyLevel = k_ElectricMotorcycleMaxBatteryHours;
+
+            for (int i = 0; i < k_NumOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+
+            foreach (Wheel wheel in WheelsList)
+            {
+                wheel.MaxAirPressure = k_ElectricMotorcycleMaxAirPressure;
+            }
+        }   
 
         //public ElectricMotorcycle(string i_ModelName, string i_LicenseNumber, float i_CurrentBatteryEnergyLevel, float i_MaxBatteryEnergyLevel,
         //    List<Wheel> i_WheelsList, eLicenseType i_LicenseType, int i_EngineVolume)

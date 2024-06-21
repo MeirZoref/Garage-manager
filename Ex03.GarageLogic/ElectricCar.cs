@@ -8,6 +8,10 @@ namespace Ex03.GarageLogic
     public class ElectricCar : Car
     {
         private ElectricBattery m_ElectricBatteryOfCar = new ElectricBattery();
+        private const float k_ElectricCarMaxBatteryHours = 3.5f;
+        private const int k_NumOfWheels = 5;
+        private const float k_ElectricCarMaxAirPressure = 31;
+
 
         //public ElectricCar(string i_ModelName, string i_LicenseNumber, float i_CurrentBatteryEnergyLevel, float i_MaxBatteryEnergyLevel, List<Wheel> i_WheelsList,
         //    eColor i_Color, eNumOfDoors i_NumOfDoors)
@@ -31,6 +35,20 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
+        public ElectricCar()
+        {
+            m_ElectricBatteryOfCar.MaxBatteryEnergyLevel = k_ElectricCarMaxBatteryHours;
+            
+            for (int i = 0; i < k_NumOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+
+            foreach (Wheel wheel in WheelsList)
+            {
+                wheel.MaxAirPressure = k_ElectricCarMaxAirPressure;
+            }
+        }
        
         public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {

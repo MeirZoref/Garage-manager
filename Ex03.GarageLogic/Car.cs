@@ -9,7 +9,7 @@ namespace Ex03.GarageLogic
 {
     public abstract class Car : Vehicle
     {
-        private const int k_NumOfWheels = 5;
+        //private const int k_NumOfWheels = 5;
         private eColor m_Color;
         private eNumOfDoors m_NumOfDoors;
 
@@ -35,14 +35,6 @@ namespace Ex03.GarageLogic
         //        throw;
         //    }
         //}
-
-        public Car()
-        {
-            for (int i = 0; i < k_NumOfWheels; i++)
-            {
-                WheelsList.Add(new Wheel());
-            }
-        }
 
         public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {
@@ -238,13 +230,13 @@ namespace Ex03.GarageLogic
             }
         }
 
-        public int NumOfWheels
-        {
-            get
-            {
-                return k_NumOfWheels;
-            }
-        }
+        //public int NumOfWheels
+        //{
+        //    get
+        //    {
+        //        return k_NumOfWheels;
+        //    }
+        //}
 
         public override string ToString()
         {

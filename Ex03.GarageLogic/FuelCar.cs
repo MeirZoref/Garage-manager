@@ -9,6 +9,10 @@ namespace Ex03.GarageLogic
     internal class FuelCar : Car
     {
         private FuelTank m_FuelTankOfCar = new FuelTank();
+        private const int k_NumOfWheels = 5;
+        private const float k_FuelCarMaxAirPressure = 31;
+        private const eFuelType k_FuelCarFuelType = eFuelType.Octan95;
+        private const float k_FuelCarMaxFuelAmountInLiters = 45;
 
         //public FuelCar(string i_ModelName, string i_LicenseNumber, eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters,
         //    List<Wheel> i_WheelsList, eColor i_Color, eNumOfDoors i_NumOfDoors)
@@ -31,6 +35,22 @@ namespace Ex03.GarageLogic
         //        throw;
         //    }
         //}
+
+        public FuelCar()
+        {
+            m_FuelTankOfCar.FuelType = k_FuelCarFuelType;
+            m_FuelTankOfCar.MaxFuelAmountLiters = k_FuelCarMaxFuelAmountInLiters;
+
+            for (int i = 0; i < k_NumOfWheels; i++)
+            {
+                WheelsList.Add(new Wheel());
+            }
+
+            foreach (Wheel wheel in WheelsList)
+            {
+                wheel.MaxAirPressure = k_FuelCarMaxAirPressure;
+            }
+        }   
 
         public override void SetProperty(string i_PropertyName, string i_PropertyValue)
         {
