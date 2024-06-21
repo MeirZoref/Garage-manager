@@ -182,7 +182,7 @@ namespace Ex03.GarageLogic
         //    }
         //}
 
-        public float CurrentEnergyLevel
+        public float CurrentEnergyLevelInPercentage
         {
             get
             {
@@ -285,16 +285,17 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"Model Name: {ModelName}");
-            sb.AppendLine($"License Number: {LicenseNumber}");
-            //sb.AppendLine($"Current Energy Percentage: {m_CurrentEnergyPercentage}%");
-            sb.AppendLine("Wheels:");
+            StringBuilder vehicleDetails = new StringBuilder();
+            vehicleDetails.AppendLine($"Model Name: {ModelName}");
+            vehicleDetails.AppendLine($"License Number: {LicenseNumber}");
+            vehicleDetails.AppendLine($"Current Energy Level: {CurrentEnergyLevelInPercentage}%");
+            vehicleDetails.AppendLine("Wheels:");
             foreach (Wheel wheel in m_WheelsList)
             {
-                sb.AppendLine($"- {wheel.ToString()}");
+                vehicleDetails.AppendLine($"- {wheel.ToString()}");
             }
-            return sb.ToString();
+
+            return vehicleDetails.ToString();
         }
     }
 }

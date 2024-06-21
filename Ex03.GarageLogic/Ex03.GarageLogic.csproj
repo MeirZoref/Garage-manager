@@ -44,8 +44,6 @@
     <Compile Include="eNumOfDoors.cs" />
     <Compile Include="eColor.cs" />
     <Compile Include="FuelCar.cs" />
-    <Compile Include="eElectricVehicleType.cs" />
-    <Compile Include="eFuelVehicleType.cs" />
     <Compile Include="eVehicleType.cs" />
     <Compile Include="eVehicleStatus.cs" />
     <Compile Include="GarageManager.cs" />

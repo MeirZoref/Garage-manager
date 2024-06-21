@@ -93,7 +93,7 @@ namespace Ex03.GarageLogic
 
         }
 
-        public override bool TryFillEnergy(float i_ElectricityAmountInMinutes, eFuelType? i_FuelType)
+        public override bool TryFillEnergy(float i_ElectricityAmountInHours, eFuelType? i_FuelType)
         {
             try
             {
@@ -102,10 +102,10 @@ namespace Ex03.GarageLogic
                     throw new ArgumentException("Electric car does not run on fuel");
                 }
 
-                bool isEnergyAdded = m_ElectricBatteryOfCar.TryChargeBattery(i_ElectricityAmountInMinutes);
+                bool isEnergyAdded = m_ElectricBatteryOfCar.TryChargeBattery(i_ElectricityAmountInHours);
                 if (isEnergyAdded)
                 {
-                    CurrentEnergyLevel = m_ElectricBatteryOfCar.CurrentBatteryEnergyLevel / m_ElectricBatteryOfCar.MaxBatteryEnergyLevel;
+                    CurrentEnergyLevelInPercentage = m_ElectricBatteryOfCar.CurrentBatteryEnergyLevel / m_ElectricBatteryOfCar.MaxBatteryEnergyLevel;
                 }
 
                 return isEnergyAdded;
@@ -163,6 +163,7 @@ namespace Ex03.GarageLogic
             StringBuilder ElectricCarDetails = new StringBuilder();
             ElectricCarDetails.Append(base.ToString());
             ElectricCarDetails.AppendLine(m_ElectricBatteryOfCar.ToString());
+
             return ElectricCarDetails.ToString();
         }
     }

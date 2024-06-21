@@ -50,7 +50,7 @@ namespace Ex03.GarageLogic
 
                     if (i_PropertyName == "Current fuel amount in liters")
                     {
-                        CurrentEnergyLevel = m_FuelTankOfTruck.CurrentFuelAmountLiters / m_FuelTankOfTruck.MaxFuelAmountLiters;
+                        CurrentEnergyLevelInPercentage = m_FuelTankOfTruck.CurrentFuelAmountLiters / m_FuelTankOfTruck.MaxFuelAmountLiters;
                     }
                 }
                 else
@@ -87,7 +87,7 @@ namespace Ex03.GarageLogic
                 if (m_FuelTankOfTruck.TryRefuel(i_FuelToAddLiters, i_FuelType))
                 {
                     isFuelAdded = true;
-                    CurrentEnergyLevel = m_FuelTankOfTruck.CurrentFuelAmountLiters / m_FuelTankOfTruck.MaxFuelAmountLiters;
+                    CurrentEnergyLevelInPercentage = m_FuelTankOfTruck.CurrentFuelAmountLiters / m_FuelTankOfTruck.MaxFuelAmountLiters;
                 }
 
                 return isFuelAdded;
@@ -137,9 +137,8 @@ namespace Ex03.GarageLogic
         {
             StringBuilder truckDetails = new StringBuilder();
             truckDetails.Append(base.ToString());
-            truckDetails.AppendFormat("Fuel type: {0}{1}", m_FuelTankOfTruck.FuelType, Environment.NewLine);
-            truckDetails.AppendFormat("Current fuel amount: {0}{1}", m_FuelTankOfTruck.CurrentFuelAmountLiters, Environment.NewLine);
-            truckDetails.AppendFormat("Max fuel amount: {0}{1}", m_FuelTankOfTruck.MaxFuelAmountLiters, Environment.NewLine);
+            truckDetails.Append(m_FuelTankOfTruck.ToString());
+
             return truckDetails.ToString();
         }
     }

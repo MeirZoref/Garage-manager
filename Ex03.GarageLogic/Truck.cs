@@ -154,8 +154,16 @@ namespace Ex03.GarageLogic
         {
             StringBuilder truckDetails = new StringBuilder();
             truckDetails.Append(base.ToString());
-            truckDetails.AppendFormat("Carrying dangerous materials: {0}{1}", m_CarryingDangerousMaterials, Environment.NewLine);
+            if (CarryingDangerousMaterials)
+            {
+                truckDetails.AppendFormat("This truck is carrying dangerous materials{0}", Environment.NewLine);
+            }
+            else
+            {
+                truckDetails.AppendFormat("This truck is not carrying dangerous materials{0}", Environment.NewLine);
+            }
             truckDetails.AppendFormat("Cargo volume: {0}{1}", m_CargoVolume, Environment.NewLine);
+
             return truckDetails.ToString();
         }
     }

@@ -9,8 +9,8 @@ namespace Ex03.GarageLogic
 {
     public class ElectricBattery
     {
-        private float m_CurrentBatteryEnergyLevel;
-        private float m_MaxBatteryEnergyLevel;
+        private float m_CurrentBatteryEnergyLevelInHours;
+        private float m_MaxBatteryEnergyLevelInHours;
 
         //public ElectricBattery(float i_CurrentEnergy, float i_MaxEnergy)
         //{
@@ -79,13 +79,13 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_MaxBatteryEnergyLevel;
+                return m_MaxBatteryEnergyLevelInHours;
             }
             set
             {
                 if (value > 0)
                 {
-                    m_MaxBatteryEnergyLevel = value;
+                    m_MaxBatteryEnergyLevelInHours = value;
                 }
                 else
                 {
@@ -98,17 +98,17 @@ namespace Ex03.GarageLogic
         {
             get
             {
-                return m_CurrentBatteryEnergyLevel;
+                return m_CurrentBatteryEnergyLevelInHours;
             }
             set
             {
-                if (value <= m_MaxBatteryEnergyLevel || value < 0)
+                if (value <= m_MaxBatteryEnergyLevelInHours || value < 0)
                 {
-                    m_CurrentBatteryEnergyLevel = value;
+                    m_CurrentBatteryEnergyLevelInHours = value;
                 }
                 else
                 {
-                    throw new ValueOutOfRangeException(0, m_MaxBatteryEnergyLevel);
+                    throw new ValueOutOfRangeException(0, m_MaxBatteryEnergyLevelInHours);
                 }
             }
         }
@@ -135,19 +135,19 @@ namespace Ex03.GarageLogic
         //    return listOfProperties;
         //}
 
-        public bool TryChargeBattery(float i_EnergyToAdd)
+        public bool TryChargeBattery(float i_EnergyToAddInHours)
         {
             bool isEnergyAdded = false;
 
-            if (m_CurrentBatteryEnergyLevel + i_EnergyToAdd <= m_MaxBatteryEnergyLevel)
+            if (m_CurrentBatteryEnergyLevelInHours + i_EnergyToAddInHours <= m_MaxBatteryEnergyLevelInHours)
             {
-                m_CurrentBatteryEnergyLevel += i_EnergyToAdd;
+                m_CurrentBatteryEnergyLevelInHours += i_EnergyToAddInHours;
                 isEnergyAdded = true;
 
             }
             else
             {
-                throw new ValueOutOfRangeException(0, m_MaxBatteryEnergyLevel - m_CurrentBatteryEnergyLevel);
+                throw new ValueOutOfRangeException(0, m_MaxBatteryEnergyLevelInHours - m_CurrentBatteryEnergyLevelInHours);
             }
 
             return isEnergyAdded;
@@ -172,8 +172,9 @@ namespace Ex03.GarageLogic
         public override string ToString()
         {
             StringBuilder batteryDetails = new StringBuilder();
-            batteryDetails.AppendFormat("Current battery energy level: {0}{1}", m_CurrentBatteryEnergyLevel, Environment.NewLine);
-            batteryDetails.AppendFormat("Max battery energy level: {0}{1}", m_MaxBatteryEnergyLevel, Environment.NewLine);
+            batteryDetails.AppendFormat("Max battery energy level (in hours): {0}{1}", m_MaxBatteryEnergyLevelInHours, Environment.NewLine);
+            batteryDetails.AppendFormat("Current battery energy level (in hours): {0}{1}", m_CurrentBatteryEnergyLevelInHours, Environment.NewLine);
+            
             return batteryDetails.ToString();
         }
     }

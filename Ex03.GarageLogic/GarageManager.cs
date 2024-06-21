@@ -11,6 +11,8 @@ namespace Ex03.GarageLogic
     public class GarageManager
     {
         private Dictionary<string, GarageSingleVehicleData> m_AllGarageVehiclesData = new Dictionary<string, GarageSingleVehicleData>();
+        private const int k_NumOfMinutesInHour = 60;
+
         //private VehicleFactory m_VehicleFactory = new VehicleFactory();
 
         //public GarageManager()
@@ -249,10 +251,15 @@ namespace Ex03.GarageLogic
 
         public bool RefuelVehicle(string i_LicensePlate, eFuelType i_FuelType, float i_FuelAmountInLiters)
         {
-            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
-
             try
             {
+                Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+
+                if(!IsVehicleFuelBased(i_LicensePlate))
+                {
+                    throw new ArgumentException("This vehicle is not a fuel vehicle.");
+                }
+
                 //IsFuelTypeMatch can throw an exception of it's own -- if the vehicle is not a fuel vehicle    
                 if (!IsFuelTypeMatch(i_LicensePlate, i_FuelType))
                 {
@@ -345,41 +352,35 @@ namespace Ex03.GarageLogic
             //return vehicleType == eVehicleType.FuelCar || vehicleType == eVehicleType.FuelMotorcycle || vehicleType == eVehicleType.FuelTruck;
         }
 
-        public void ChargeVehicle(string i_LicensePlate, float i_ElectricityAmountInMinutes)
+        public bool RehargeVehicle(string i_LicensePlate, int i_ElectricityAmountInMinutes)
         {
-            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
-
-            if (!IsElectricVehicle(i_LicensePlate))
-            {
-                throw new ArgumentException("This vehicle is not an electric vehicle.");
-            }
-
             try
-            {
-                switch (vehicle)
+            {   
+                if(!IsElectricVehicle(i_LicensePlate))
                 {
-                    case ElectricCar electricCar:
-                        {
-                            electricCar.TryFillEnergy(i_ElectricityAmountInMinutes, null);
-                            break;
-                        }
-                    case ElectricMotorcycle electricMotorcycle:
-                        {
-                            electricMotorcycle.TryFillEnergy(i_ElectricityAmountInMinutes, null);
-                            break;
-                        }
+                    throw new ArgumentException("This vehicle is not an electric vehicle.");
+                }
+                else
+                {
+                    Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+                    float i_ElectricityAmountInHours = ConvertNumOfMinutesToHours(i_ElectricityAmountInMinutes);
+                    bool isEnergyAdded = vehicle.TryFillEnergy(i_ElectricityAmountInHours, null);
+
+                    return isEnergyAdded;
                 }
             }
             catch (Exception)
             {
                 throw;
-            }
-
-            //ElectricBattery electricBattery = ((ElectricBattery)m_GarageVehiclesData[i_LicensePlate].Vehicle.EnergySource);
-            //electricBattery.ChargeBattery(i_EnergyAmount);
+            }           
         }
 
-        private bool IsElectricVehicle(string i_LicensePlate)
+        private float ConvertNumOfMinutesToHours(int i_ElectricityAmountInMinutes)
+        {
+            return (float)i_ElectricityAmountInMinutes / k_NumOfMinutesInHour;
+        }
+
+        public bool IsElectricVehicle(string i_LicensePlate)
         {
             try
             {
@@ -410,33 +411,57 @@ namespace Ex03.GarageLogic
         //implement this method in the UI component?
         public string GetVehicleDataWithStatus(string i_LicensePlate)
         {
-            Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
-            string vehicleData = string.Empty;
-
-            //switch (vehicle)
-            //{
-            //    case ElectricCar electricCar:
-            //        {
-            //            return string.Format("{0}{1}Vehicle status: {2}{1}", electricCar.ToString(), Environment.NewLine,
-            //                m_GarageVehiclesData[i_LicensePlate].VehicleStatus);
-            //        }
-            //}
-            
-            return string.Format("{0}{1}Vehicle status: {2}{1}", m_AllGarageVehiclesData[i_LicensePlate].Vehicle.ToString(), Environment.NewLine, m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus);
-        }
-
-        public GarageSingleVehicleData GetGarageVehicleData(string i_LicensePlate)
-        {
             try
             {
-                return m_AllGarageVehiclesData[i_LicensePlate];
+                List<string> listOfAllData = new List<string>();
+                Vehicle vehicle = m_AllGarageVehiclesData[i_LicensePlate].Vehicle;
+
+                listOfAllData.Add($"Data of vehicle with license plate: {i_LicensePlate}");
+                listOfAllData.Add($"Owner name: {m_AllGarageVehiclesData[i_LicensePlate].OwnerName}");
+                listOfAllData.Add($"Owner phone number: {m_AllGarageVehiclesData[i_LicensePlate].OwnerPhoneNumber}");
+                listOfAllData.Add($"Vehicle status: {FormatEnumValue(m_AllGarageVehiclesData[i_LicensePlate].VehicleStatus)}");
+                listOfAllData.Add(vehicle.ToString());
+
+                return string.Join(Environment.NewLine, listOfAllData);
             }
             catch (KeyNotFoundException)
             {
                 throw new ArgumentException("This vehicle is not in the garage.");
             }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-        
+
+        public string FormatEnumValue(Enum enumValue)
+        {
+            string text = enumValue.ToString();
+            // Insert space before each uppercase letter, except the first one.
+            text = Regex.Replace(text, "(\\B[A-Z])", " $1");
+            // Convert the entire string to lowercase
+            text = text.ToLower();
+            // Capitalize the first letter of the entire string
+            if (text.Length > 0)
+            {
+                text = char.ToUpper(text[0]) + text.Substring(1);
+            }
+            return text;
+        }
+
+
+        //public GarageSingleVehicleData GetGarageVehicleData(string i_LicensePlate)
+        //{
+        //    try
+        //    {
+        //        return m_AllGarageVehiclesData[i_LicensePlate];
+        //    }
+        //    catch (KeyNotFoundException)
+        //    {
+        //        throw new ArgumentException("This vehicle is not in the garage.");
+        //    }
+        //}
+
 
         public List<string> GetListOfAllLicensePlates()
         {
@@ -480,6 +505,7 @@ namespace Ex03.GarageLogic
 
             return supportedVehicleTypes;
         }
+
 
         //public List<eColor> eColorsOptions
         //{

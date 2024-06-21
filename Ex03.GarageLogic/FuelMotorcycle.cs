@@ -50,7 +50,7 @@ namespace Ex03.GarageLogic
 
                     if (i_PropertyName == "Current fuel amount in liters")
                     {
-                        CurrentEnergyLevel = m_FuelTankOfMotorcycle.CurrentFuelAmountLiters / m_FuelTankOfMotorcycle.MaxFuelAmountLiters;
+                        CurrentEnergyLevelInPercentage = m_FuelTankOfMotorcycle.CurrentFuelAmountLiters / m_FuelTankOfMotorcycle.MaxFuelAmountLiters;
                     }
                 }
                 else
@@ -72,7 +72,7 @@ namespace Ex03.GarageLogic
                 if (m_FuelTankOfMotorcycle.TryRefuel(i_FuelToAddLiters, i_FuelType))
                 {
                     isFuelAdded = true;
-                    CurrentEnergyLevel = m_FuelTankOfMotorcycle.CurrentFuelAmountLiters / m_FuelTankOfMotorcycle.MaxFuelAmountLiters;
+                    CurrentEnergyLevelInPercentage = m_FuelTankOfMotorcycle.CurrentFuelAmountLiters / m_FuelTankOfMotorcycle.MaxFuelAmountLiters;
                 }
 
                 return isFuelAdded;
@@ -138,9 +138,8 @@ namespace Ex03.GarageLogic
         {
             StringBuilder motorcycleDetails = new StringBuilder();
             motorcycleDetails.Append(base.ToString());
-            motorcycleDetails.AppendFormat("Fuel type: {0}{1}", m_FuelTankOfMotorcycle.FuelType, Environment.NewLine);
-            motorcycleDetails.AppendFormat("Current fuel amount: {0}{1}", m_FuelTankOfMotorcycle.CurrentFuelAmountLiters, Environment.NewLine);
-            motorcycleDetails.AppendFormat("Max fuel amount: {0}{1}", m_FuelTankOfMotorcycle.MaxFuelAmountLiters, Environment.NewLine);
+            motorcycleDetails.Append(m_FuelTankOfMotorcycle.ToString());
+            
             return motorcycleDetails.ToString();
         }
     }

@@ -2,9 +2,9 @@
 {
     public enum eColor
     {
-       yellow = 1,
-       white,
-       red,
-       black
+       Yellow = 1,
+       White,
+       Red,
+       Black
     }
 }

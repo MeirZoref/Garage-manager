@@ -8,7 +8,7 @@ namespace Ex03.GarageLogic
 {
     public class Wheel
     {
-        private string m_ManufacturerName; //readonly?
+        //private string m_ManufacturerName; //readonly?
         private float m_CurrentAirPressure;
         private float m_MaxAirPressure; //readonly?
 
@@ -100,7 +100,7 @@ namespace Ex03.GarageLogic
 
         public override string ToString()
         {
-            return $"Manufacturer Name: {m_ManufacturerName}, Current Air Pressure: {m_CurrentAirPressure}, Max Air Pressure: {m_MaxAirPressure}";
+            return $"Manufacturer Name: {ManufacturerName}, Current Air Pressure: {m_CurrentAirPressure}, Max Air Pressure: {m_MaxAirPressure}";
         }
     }
 }

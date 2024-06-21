@@ -226,6 +226,18 @@ namespace Ex03.GarageLogic
             }
         }
 
+        public override string ToString()
+        {
+            StringBuilder fuelTankDetails = new StringBuilder();
+            fuelTankDetails.AppendFormat("Fuel type: {0}{1}", FuelType, Environment.NewLine);
+            fuelTankDetails.AppendFormat("Max fuel amount (in liters): {0}{1}", MaxFuelAmountLiters, Environment.NewLine);
+            fuelTankDetails.AppendFormat("Current fuel amount (in liters): {0}{1}", CurrentFuelAmountLiters, Environment.NewLine);
+
+            return fuelTankDetails.ToString();
+        }
+
+
+
         //public bool TryRefuel(float i_FuelToAddLiters, eFuelType? i_FuelType)
         //{
         //    bool isFuelAdded = false;

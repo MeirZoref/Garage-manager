@@ -71,7 +71,7 @@ namespace Ex03.GarageLogic
                         }
                         else
                         {
-                            throw new ArgumentException(ModelName + " Engine volume must be a positive integer number");
+                            throw new ArgumentException(" Engine volume must be a positive integer number");
                         }
 
                         break;
