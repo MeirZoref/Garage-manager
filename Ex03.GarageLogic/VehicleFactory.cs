@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Ex03.GarageLogic
 {
@@ -48,42 +45,19 @@ namespace Ex03.GarageLogic
             return newVehicle;
         }
         
-        ////change to specific vehicle types ???
-        ///
-        //public List<string> SupportedVehicleTypesList
-        //{
-        //    get
-        //    {
-        //        return Enum.GetNames(typeof(eVehicleType)).ToList();
-        //        //return Enum.GetValues(typeof(eVehicleType));
-        //    }
-        //}
-
-
-
-        //public static Vehicle CreateVehicle(eVehicleType i_VehicleType, string i_ModelName, string i_LicensePlate, string i_WheelManufacturerName,float i_CurrentAirPressure, float i_MaxAirPressure, string i_OwnerName, string i_OwnerPhoneNumber, eVehicleStatus i_VehicleStatus, float i_CurrentEnergy, float i_MaxEnergy, eFuelType i_FuelType, float i_CurrentFuelAmountLiters, float i_MaxFuelAmountLiters)
-        //{
-        //    Vehicle newVehicle = null;
-        //    switch (i_VehicleType)
-        //    {
-        //        case eVehicleType.ElectricCar:
-        //            newVehicle = new ElectricCar(i_ModelName, i_LicensePlate, i_WheelManufacturerName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhoneNumber, i_VehicleStatus, i_CurrentEnergy, i_MaxEnergy);
-        //            break;
-        //        case eVehicleType.ElectricMotorcycle:
-        //            newVehicle = new ElectricMotorcycle(i_ModelName, i_LicensePlate, i_WheelManufacturerName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhoneNumber, i_VehicleStatus, i_CurrentEnergy, i_MaxEnergy);
-        //            break;
-        //        case eVehicleType.FuelCar:
-        //            newVehicle = new FuelCar(i_ModelName, i_LicensePlate, i_WheelManufacturerName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhoneNumber, i_VehicleStatus, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters, i_FuelType);
-        //            break;
-        //        case eVehicleType.FuelMotorcycle:
-        //            newVehicle = new FuelMotorcycle(i_ModelName, i_LicensePlate, i_WheelManufacturerName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhoneNumber, i_VehicleStatus, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters, i_FuelType);
-        //            break;
-        //        case eVehicleType.Truck:
-        //            newVehicle = new Truck(i_ModelName, i_LicensePlate, i_WheelManufacturerName, i_CurrentAirPressure, i_MaxAirPressure, i_OwnerName, i_OwnerPhoneNumber, i_VehicleStatus, i_CurrentFuelAmountLiters, i_MaxFuelAmountLiters, i_FuelType);
-        //            break;
-        //    }
-
-        //    return newVehicle;
-        //}
+        public static string GetListOfCurrentSupportedVehicles()
+        {
+            List<string> currentlySupportedVehicles = new List<string>
+            {
+                "Supported vehicle types are:",
+                "1. Fuel Car with 5 wheels, max air pressure of 31, Tank capacity of 45 liters, Fuel type: Octan 95.",
+                "2. Electric Car with 5 wheels, max air pressure of 31, max battery capacity of 3.5 hours.",
+                "3. Fuel Motorcycle with 2 wheels, max air pressure of 33, Tank capacity of 5.5 liters, Fuel type: Octan 98.",
+                "4. Electric Motorcycle with 2 wheels, max air pressure of 33, max battery capacity of 2.5 hours.",
+                "5. Fuel Truck with 12 wheels, max air pressure of 28, Tank capacity of 120 liters, Fuel type: Soler."
+            };
+            
+            return string.Join(Environment.NewLine, currentlySupportedVehicles);
+        }
     }
 }

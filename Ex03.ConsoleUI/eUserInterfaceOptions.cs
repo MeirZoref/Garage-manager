@@ -10,6 +10,5 @@
         RechargeVehicle,
         DisplayVehicleDetails,
         Exit
-        //Invalid
     }
 }
